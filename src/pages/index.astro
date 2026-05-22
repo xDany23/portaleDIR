@@ -1,5 +1,6 @@
 ---
 import { getAziende, getAziendaById, getAziendeByFilters } from "../lib/data";
+import Layout from "../layouts/Layout.astro";
 
 //Testo le funzioni
 const tutte = getAziende()
@@ -11,19 +12,8 @@ console.log('Azienda con id 1: ', una?.nome)
 const filtrate = getAziendeByFilters({ citta: ['1'], ambiti: ['2','4']})
 console.log("Aziende a Forlì con ambiti 2 e 4: ", filtrate.length)
 
-
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Homepage">
+	<h1>Ciao da IT Romagna!</h1>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import '../styles/global.css'
+
+interface Props {
+    title: string
+    description?: string
+}
+
+const { title, description = "Il portale per trovare aziende IT in Romagna" } = Astro.props
+---
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | IT Romagna</title>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                <span class="font-medium text-gray-900">IT Romagna</span>
+            </a>
+
+            <!-- Link centrali -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/aziende" class="nav-link">Aziende</a>
+                <a href="/tirocini" class="nav-link">Tirocini</a>
+                <a href="/chi-siamo" class="nav-link">Chi siamo</a>
+            </div>
+
+            <!-- Pulsante a destra -->
+            <a href="/per-le-aziende" class="btn-outline">Per le aziende</a>
+
+        </nav>
+    </header>
+
+    <!-- Contenuto Pagina -->
+    <main class="flex-1">
+        <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                <span class="text-sm font-medium text-gray-900">IT Romagna</span>
+            </div>
+
+            <p class="text-sm text-gray-400">
+                Un progetto in collaborazione con il DIR - {new Date().getFullYear()}
+            </p>
+
+            <div class="flex items-center gap-6">
+                <a href="/aziende" class="footer-link">Aziende</a>
+                <a href="/tirocini" class="footer-link">Tirocini</a>
+                <a href="/chi-siamo" class="footer-link">Chi siamo</a>
+            </div>
+            
+        </div>
+    </footer>
+    
+</body>
+</html>

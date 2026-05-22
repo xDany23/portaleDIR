@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1",
+        "nome": "TechBase Srl",
+        "descrizione": "Azienda specializzata nello sviluppo di software gestionale per PMI del territorio romagnolo.",
+        "lavoro_da_remoto": "ibrido",
+        "sito_web": "https://techbase.it",
+        "email_contatto": "info@techbase.it",
+        "telefono": "0543 123456",
+        "dimensione": "pmi",
+        "logo_url": "aaaa",
+        "anno_fondazione": 2012,
+        "latitudine": 44.2227,
+        "longitudine": 12.0407,
+        "id_citta": "1",
+        "ambiti": ["2"]
+    }
+]

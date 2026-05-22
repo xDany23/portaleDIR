@@ -1,5 +1,15 @@
 ---
+import { getAziende, getAziendaById, getAziendeByFilters } from "../lib/data";
 
+//Testo le funzioni
+const tutte = getAziende()
+console.log('Tutte le aziende: ', tutte.length)
+
+const una = getAziendaById('1')
+console.log('Azienda con id 1: ', una?.nome)
+
+const filtrate = getAziendeByFilters({ citta: ['1'], ambiti: ['2','4']})
+console.log("Aziende a Forlì con ambiti 2 e 4: ", filtrate.length)
 ---
 
 <html lang="en">

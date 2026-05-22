@@ -1,0 +1,14 @@
+[
+    {"id": "1", "nome": "Software Developement"},
+    {"id": "2", "nome": "Artificial Intelligence & Data"},
+    {"id": "3", "nome": "Cybersecurity"},
+    {"id": "4", "nome": "Cloud Computing & DevOps"},
+    {"id": "5", "nome": "IT Infrastructure & Networking"},
+    {"id": "6", "nome": "Managed Services & IT Support"},
+    {"id": "7", "nome": "Digital Platforms & Web Solutions"},
+    {"id": "8", "nome": "AR/VR, Multimedia & Creative Tech"},
+    {"id": "9", "nome": "UI/UX & Digital Experience"},
+    {"id": "10", "nome": "IoT & Embedded Systems"},
+    {"id": "11", "nome": "Business Software & Enterprise Solutions"},
+    {"id": "12", "nome": "IT Consulting & Digital Transformation"}
+]

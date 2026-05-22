@@ -2,6 +2,12 @@ import aziende from '../data/aziende.json'
 import citta from '../data/citta.json'
 import ambiti from '../data/ambiti.json'
 
+import fs from 'fs'
+import path from 'path'
+
+//percorso base dei file JSON
+const DATA_PATH = path.resolve('./src/data')
+
 export type Azienda = {
     id: string
     nome: string
@@ -130,3 +136,91 @@ export function slugify(nome: string): string {
     return nome.toLowerCase().replace('/\s+g', '-')
 }
 
+
+//funzioni SCRITTURA
+
+//aziende
+function salvaAziende(nuoveAziende: Azienda[]): void {
+    fs.writeFileSync(
+        path.join(DATA_PATH, 'aziende.json'),
+        JSON.stringify(nuoveAziende, null, 2),
+        'utf-8'
+    )
+}
+
+export function aggiungiAzienda(nuovaAzienda: Omit<Azienda, 'id'>): Azienda {
+    const aziende = getAziende();
+    const id = (aziende.length + 1).toString()
+    const aziendaCompleta = { id, ...nuovaAzienda}      //serve a riempire aziendaCompleta con tutti i campi di nuovaAzienda
+    salvaAziende([...aziende, aziendaCompleta])     //ogni volta riscrive tutte le aziende e aggiunge la nuova in fondo
+    return aziendaCompleta
+}
+
+export function rimuoviAzienda(id: string): boolean {
+    const aziende = getAziende()
+    const nuoveAziende = aziende.filter(a => a.id !== id)       //toglie l'azienda con l'id passato
+    if (nuoveAziende.length === aziende.length) return false
+    salvaAziende(nuoveAziende)
+    return true
+}
+
+export function aggiornaAzienda(id: string, dati: Partial<Azienda>): Azienda | undefined {      //Partial fa sì che si possano anche aggiungere solo alcuni campi di azienda e non tutti
+    const aziende = getAziende()
+    const index = aziende.findIndex(a => a.id === id)
+    if (index === -1) return undefined
+    aziende[index] = {...aziende[index], ...dati}       //aggiorno l'azienda all'index trovato dell'id che cercavo
+    salvaAziende(aziende)
+    return aziende[index]
+}
+
+//città
+
+function salvaCitta(nuoveCitta: Citta[]): void {
+  fs.writeFileSync(
+    path.join(DATA_PATH, 'citta.json'),
+    JSON.stringify(nuoveCitta, null, 2),
+    'utf-8'
+  )
+}
+
+export function aggiungiCitta(nome: string): Citta {
+    const citta = getCitta()
+    const id = (citta.length + 1).toString()
+    const nuovaCitta = { id, nome }
+    salvaCitta([...citta, nuovaCitta])
+    return nuovaCitta
+}
+
+export function rimuoviCitta(id: string): boolean {
+    const citta = getCitta()
+    const nuoveCitta = citta.filter(c => c.id !== id)
+    if (nuoveCitta.length === citta.length) return false
+    salvaCitta(nuoveCitta)
+    return true
+}
+
+//ambiti di lavoro
+
+function salvaAmbiti(nuoviAmbiti: Ambito[]): void {
+  fs.writeFileSync(
+    path.join(DATA_PATH, 'ambiti.json'),
+    JSON.stringify(nuoviAmbiti, null, 2),
+    'utf-8'
+  )
+}
+
+export function aggiungiAmbito(nome: string): Ambito {
+    const ambiti = getAmbiti()
+    const id = (ambiti.length + 1).toString()
+    const nuovoAmbito = {id, nome}
+    salvaAmbiti([...ambiti, nuovoAmbito])
+    return nuovoAmbito
+}
+
+export function rimuoviAmbito(id: string): boolean {
+    const ambiti = getAmbiti()
+    const nuoviAmbiti = ambiti.filter(a => a.id !== id)
+    if (nuoviAmbiti.length === ambiti.length) return false
+    salvaAmbiti(nuoviAmbiti)
+    return true
+}

@@ -3,9 +3,9 @@ import { getAziende, getAziendaById, getAziendeByFilters, getAmbiti, getCitta } 
 import Layout from "../layouts/Layout.astro";
 import AziendaCard from "../components/AziendaCard.astro";
 
-const citta = await getCitta()
-const ambiti = await getAmbiti()
-const aziende = await getAziende()
+const citta = getCitta()
+const ambiti = getAmbiti()
+const aziende = getAziende()
 
 const totaleAziende = aziende.length;
 const totaleCitta = citta.length;

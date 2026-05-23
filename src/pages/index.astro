@@ -1,67 +1,176 @@
 ---
-import { getAziende, getAziendaById, getAziendeByFilters, getAmbiti } from "../lib/data";
+import { getAziende, getAziendaById, getAziendeByFilters, getAmbiti, getCitta } from "../lib/data";
 import Layout from "../layouts/Layout.astro";
+import AziendaCard from "../components/AziendaCard.astro";
 
+const citta = await getCitta()
 const ambiti = await getAmbiti()
 const aziende = await getAziende()
+
+const totaleAziende = aziende.length;
+const totaleCitta = citta.length;
+const totaleAmbiti = ambiti.length;
 const aziendeInEvidenza = aziende.slice(0, 3)
+const cittaInEvidenza = citta.slice(0,5)
 
 ---
 
 <Layout title="Homepage">
-	<!-- Hero -->
-  <section class="section py-28 text-center">
-    <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
-      Trova aziende IT in Romagna
-    </h1>
+	<!-- Hero Section -->
+	 <!-- bg-gradient-to-b crea un gradiente che va verso il basso con "from" e "to" per specificare i colori, 
+	  lo "/5" indica l'opacità. py è padding verticale e lg fa sì che venga aplicato solo su schermi larghi -->
+	<section class="relative overflow-hidden bg-gradient-to-b from-primary/5 to backgorund py-20 lg:py-32">
+		<!-- container applica una larghezza massimo all'elemento in base allo schermo e mx-auto centra il 
+			l'elemento orizzontalmente aggiungendo margin:auto. px-4 aggiunge padding orizzontale -->
+		<div class="container mx-auto px-4">
+			<div class="max-w-3xl mx-auto text-center">
+				<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance">
+					Scopri le Aziende IT della <span class="text-primary">Romagna</span>
+				</h1>
+				<p class="text-lg md:text-xl text-muted-foreground mb-8 text-pretty">
+					Il portale per studenti e professionisti che cercano opportunità di stage e lavoro nel settore tecnologico in Emilia-Romagna.
+				</p>
 
-    <p class="mt-6 text-lg text-gray-600 max-w-2xl max-auto">
-      Esplora le aziende del Distretto dell’Informatica Romagnola, filtra per città, ambito e opportunità di tirocinio.
-    </p>
-
-    <div class="mt-10 max-w-xl mx-auto">
-      <input type="text" placeholder="Cerca un'azienda..." class="input shadow-sm" />
-    </div>
-
-	<!-- Ambiti -->
-	 <section class="section-light">
-		<div class="section">
-			<h2 class="mb-8 text-center">Ambiti IT</h2>
-
-			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-				{ambiti.map(a => (
-					<div class="card p-5 text-center hover:shadow-sm">
-						<span class="font-medium">{a.nome}</span>
+				<!-- Search Bar -->
+				<form action="/aziende" method="get" class="max-w-2xl mx-auto">
+					<div class="flex gap-2">
+						<input 
+							type="text" 
+							name="q" 
+							placeholder="Cerca aziende, tecnologie, città..."
+							class="flex-1 h-12 px-4 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+						/>
+						<button
+							type="submit"
+							class="h-12 px-6 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
+						>
+							Cerca
+						</button>
 					</div>
+				</form>
+
+				<!-- Link veloci per Città -->
+				 <div class="mt-8 flex flex-wrap justify-center gap-2">
+					<span class="text-sm text-muted-foreground">
+						Citta popolari
+					</span>
+					{cittaInEvidenza.map(c => (
+						<a 
+							href={`/aziende?citta=${c.id}`}
+							class="inline-flex items-center px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-colors"
+						>
+							{c.nome}
+						</a>
+					))}
+				 </div>
+			</div>
+		</div>
+
+		<!-- Elementi Decorativi -->
+		<!-- Cerchi sfumati in alto a sinistra e in basso a destra -->
+		<div class="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+		<div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+	</section>
+
+	<!-- Sezione Statistiche -->
+	<section class="py-12 border-y border-border bg-card">
+		<div class="container mx-auto px-4">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div class="text-center">
+					<div class="text-4xl font-bold text-primary mb-2">{totaleAziende}</div>
+					<div class="text-muted-foreground">Aziende Registrate</div>
+				</div>
+				<div class="text-center">
+					<div class="text-4xl font-bold text-secondary mb-2">{totaleCitta}</div>
+					<div class="text-muted-foreground">Città della Romagna</div>
+				</div>
+				<div class="text-center">
+					<div class="text-4xl font-bold text-accent mb-2">{totaleAmbiti}</div>
+					<div class="text-muted-foreground">Ambiti di Lavoro</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Le aziende del Portale -->
+	<section class="py-16 lg:py-24">
+		<div class="container mx-auto px-4">
+			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+				<div>
+					<h2 class="text-3xl font-bold text-foreground mb-2">Aziende in Evidenza</h2>
+					<p class="text-muted-foreground">Le aziende piu visitate del portale</p>
+				</div>
+				<a 
+					href="/aziende"
+					class="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
+				>
+					Vedi tutte le aziende
+					<!-- freccia verso destra -->
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+				</a>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{aziendeInEvidenza.map(a => (
+					<AziendaCard azienda={a}/>
 				))}
 			</div>
 		</div>
-	 </section>
+	</section>
 
-	 <!-- Aziende in evidenza -->
-	<section class="section">
-		<h2 class="mb-8 text-center">Aziende in evidenza</h2>
+	<!-- Sezione per gli Ambiti di Lavoro -->
+	<section class="py-16 lg:py-24 bg-muted/30">
+		<div class="container mx-auto px-4">
+			<div class="text-center mb-10">
+				<h2 class="text-3xl font-bold text-foreground mb-2">Ambiti di Lavoro</h2>
+				<p class="text-muted-foreground">Esplora le aziende per settore tecnologico</p>
+			</div>
 
-		<div class="grid-cards">
-			{aziendeInEvidenza.map(a => (
-				<a href={'/aziende/${a.slug}'} class="card hover:shadow-md transition-shadow">
-					<h3>{a.nome}</h3>
-					<p class="text-sm text-gray-600 mt-2">{a.descrizione}</p>
-				</a>
-			))}
+			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+				{ambiti.map(ambito => {
+					const count = aziende.filter(a => a.ambiti.includes(ambito.id)).length;
+					return (
+						<a 
+							href={`/aziende?ambito=${ambito.id}`}
+							class="flex flex-col items-center p-6 bg-card rounded-xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group"
+						>
+							<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+							</div>
+							<h3 class="font-medium text-foreground text-center text-sm mb-1">{ambito.nome}</h3>
+							<span class="text-xs text-muted-foreground">{count} aziende</span>
+						</a>
+					);
+				})}
+			</div>
 		</div>
 	</section>
 
-	<!-- Cta -->
-	<section class="bg-emerald-600 text-white py-16">
-		<div class="section text-center">
-			<h2 class="text-3xl font-semibold">Sei un'azienda IT?</h2>
-			<p class="mt-4 text-lg opacity-90">
-				Entra nel portale e fatti trovare da studenti e neolaureati.
-			</p>
-
-			<a href="/per-le-aziende" class="btn-primary mt-8 inline-block">Registrati ora</a>
+	<!-- Sezione finale Contatti -->
+	<section class="py-16 lg:py-24">
+		<div class="container mx-auto px-4">
+			<div class="max-w-4xl mx-auto bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 md:p-12 text-center">
+				<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+					Sei un'azienda IT della Romagna?
+				</h2>
+				<p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+					Registra gratuitamente la tua azienda sul portale e raggiungi studenti e professionisti in cerca di opportunità nel settore IT.
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center">
+					<a 
+						href="/registrati"
+						class="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-lg hover:bg-white/90 transition-colors"
+					>
+						Registra la tua Azienda
+					</a>
+					<a 
+						href="/contatti"
+						class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
+					>
+					Contattaci
+					</a>
+				</div>
+			</div>
 		</div>
 	</section>
-	
 </Layout>

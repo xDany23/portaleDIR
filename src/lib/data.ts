@@ -1,3 +1,7 @@
+import type { Citta } from './types'
+import type { Ambito } from './types'
+import type { Azienda } from './types'
+
 import aziende from '../data/aziende.json'
 import citta from '../data/citta.json'
 import ambiti from '../data/ambiti.json'
@@ -7,33 +11,6 @@ import path from 'path'
 
 //percorso base dei file JSON
 const DATA_PATH = path.resolve('./src/data')
-
-export type Azienda = {
-    id: string
-    nome: string
-    descrizione: string
-    lavoro_da_remoto: string
-    sito_web: string
-    email_contatto: string
-    telefono: string
-    dimensione: string
-    logo_url: string
-    anno_fondazione: number
-    latitudine: number
-    longitudine: number
-    id_citta: string
-    ambiti: string[]
-}
-
-export type Citta = {
-    id: string
-    nome: string
-}
-
-export type Ambito = {
-    id: string
-    nome: string
-}
 
 // Funzioni per le città
 
@@ -73,7 +50,7 @@ export function getAziendaByCitta(idCitta: string): Azienda[] {
 //funzione per URL-friendly, fa sì che venga preso il nome dell'azienda tutto in minuscolo da mettere tipo nell'indirizzo web della pagina
 export function getAziendaBySlug(slug: string): Azienda | undefined {
     return aziende.find(
-        a => a.nome.toLowerCase().replace('/\s+g', '-') === slug
+        a => a.nome.toLowerCase().replace(/\s+/g, '-') === slug
     )
 }
 
@@ -133,7 +110,7 @@ export function getCittaByAzienda(azienda: Azienda): Citta | undefined {
 }
 
 export function slugify(nome: string): string {
-    return nome.toLowerCase().replace('/\s+g', '-')
+    return nome.toLowerCase().replace(/\s+/g, '-')
 }
 
 

@@ -2,6 +2,7 @@
 import { getAziende, getAziendaById, getAziendeByFilters, getAmbiti, getCitta } from "../lib/data";
 import Layout from "../layouts/Layout.astro";
 import AziendaCard from "../components/AziendaCard.astro";
+import { immaginiAmbiti } from "../lib/immaginiAmbiti";
 
 const citta = getCitta()
 const ambiti = getAmbiti()
@@ -22,7 +23,7 @@ const cittaInEvidenza = citta.slice(0,5)
 	<section class="relative overflow-hidden bg-gradient-to-b from-primary/5 to backgorund py-20 lg:py-32">
 		<!-- container applica una larghezza massimo all'elemento in base allo schermo e mx-auto centra il 
 			l'elemento orizzontalmente aggiungendo margin:auto. px-4 aggiunge padding orizzontale -->
-		<div class="container mx-auto px-4">
+		<div class="container mx-auto px-4 ">
 			<div class="max-w-3xl mx-auto text-center">
 				<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance">
 					Scopri le Aziende IT della <span class="text-primary">Romagna</span>
@@ -42,7 +43,7 @@ const cittaInEvidenza = citta.slice(0,5)
 						/>
 						<button
 							type="submit"
-							class="h-12 px-6 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
+							class="h-12 px-6 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
 						>
 							Cerca
 						</button>
@@ -119,23 +120,24 @@ const cittaInEvidenza = citta.slice(0,5)
 	</section>
 
 	<!-- Sezione per gli Ambiti di Lavoro -->
-	<section class="py-16 lg:py-24 bg-muted/30">
+	<section class="py-16 lg:py-24 bg-muted/80">
 		<div class="container mx-auto px-4">
 			<div class="text-center mb-10">
 				<h2 class="text-3xl font-bold text-foreground mb-2">Ambiti di Lavoro</h2>
 				<p class="text-muted-foreground">Esplora le aziende per settore tecnologico</p>
 			</div>
 
-			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 				{ambiti.map(ambito => {
 					const count = aziende.filter(a => a.ambiti.includes(ambito.id)).length;
+					const icon = immaginiAmbiti[ambito.id]
 					return (
 						<a 
 							href={`/aziende?ambito=${ambito.id}`}
 							class="flex flex-col items-center p-6 bg-card rounded-xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group"
 						>
 							<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+								<Fragment set:html={icon}/>
 							</div>
 							<h3 class="font-medium text-foreground text-center text-sm mb-1">{ambito.nome}</h3>
 							<span class="text-xs text-muted-foreground">{count} aziende</span>

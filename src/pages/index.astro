@@ -51,13 +51,13 @@ const cittaInEvidenza = citta.slice(0,5)
 
 				<!-- Link veloci per Città -->
 				 <div class="mt-8 flex flex-wrap justify-center gap-2">
-					<span class="text-sm text-muted-foreground">
-						Citta popolari
+					<span class="text-sm font-semibold text-muted-foreground self-center">
+						Citta popolari:
 					</span>
 					{cittaInEvidenza.map(c => (
 						<a 
 							href={`/aziende?citta=${c.id}`}
-							class="inline-flex items-center px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-colors"
+							class="inline-flex items-center px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground hover:bg-primary/20 hover:text-foreground transition-colors"
 						>
 							{c.nome}
 						</a>

@@ -1,0 +1,136 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getAziende, getCittaById, getAmbitoById, slugify, getAziendaBySlug } from "../../lib/data";
+
+export function getStaticPaths() {
+    return getAziende().map(a => ({
+        params: {slug: slugify(a.nome)}
+    }))
+}
+
+const { slug } = Astro.params
+const azienda = getAziendaBySlug(slug)
+
+if (!azienda) {
+    return Astro.redirect('/aziende')
+}
+
+const citta = getCittaById(azienda.id_citta)
+---
+
+<Layout title={azienda.nome} description={azienda.descrizione.slice(0,160)}>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Mini menu -->
+        <nav class="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+            <a href="/" class="hover:text-foreground transition-colors">Home</a>
+            <span>/</span>
+            <a href="/aziende" class="hover:text-foreground transition-colors">Aziende</a>
+            <span>/</span>
+            <span class="text-foreground">{azienda.nome}</span>
+        </nav>
+
+        <!-- Informazioni Azienda -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Header -->
+                <div class="bg-card rounded-xl border border-border p-8">
+                    <div class="flex flex-col sm:flex-row items-start gap-6">
+                        <img 
+                            src={azienda.logo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${azienda.nome}`} 
+                            alt={`Logo ${azienda.nome}`}
+                            class="w-24 h-24 rounded-xl object-cover"
+                        />
+                        <div class="flex-1">
+                            <h1 class="text-3xl font-bold text-foreground mb-2">{azienda.nome}</h1>
+                            <div class="flex flex-wrap items-center gap-4 text-muted-foreground mb-4">
+                                <span class="flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    {citta?.nome}, Romagna
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    {azienda.dimensione}
+                                </span>
+                            </div>
+                            <div class="flex flex-warp gap-2">
+                                <span class="inline-flex items-center px-3 py-1 rounded-md border text-sm font-medium bg-blue-100 text-blue-800 border-blue-200">
+                                    {azienda.lavoro_da_remoto}
+                                </span>
+                                {azienda.ambiti.map((ambitoId) => {
+                                    const ambito = getAmbitoById(ambitoId);
+                                    return ambito && (
+                                        <span class="inline-flex items-center px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium">
+                                            {ambito.nome}
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descrizione -->
+                <div class="bg-card rounded-xl border border-border p-8">
+                    <h2 class="text-xl font-semibold text-foreground mb-4">Chi siamo</h2>
+                    <p class="text-muted-foreground leading-relaxed whitespace-pre-line">
+                        {azienda.descrizione}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Barra laterale -->
+            <!-- Recapiti Azienda -->
+            <div class="bg-card rounded-xl border border-border p-6">
+                <h3 class="font-semibold text-foreground mb-4">Contatti</h3>
+                <div class="space-y-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <div>
+                        <div class="text-sm text-muted-foreground">Email</div>
+                        <a href={`mailto:${azienda.email_contatto}`} class="text-primary hover:underline">
+                            {azienda.email_contatto}
+                        </a>
+                    </div>
+                </div>
+
+                {azienda.telefono && (
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <div>
+                            <div class="text-sm text-muted-foreground">Telefono</div>
+                            <a href={`tel:${azienda.telefono}`} class="text-foreground hover:text-primary">
+                                {azienda.telefono}
+                            </a>
+                        </div>
+                    </div>
+                )}
+
+                {azienda.sito_web && (
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground mt-0.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        <div>
+                            <div class="text-sm text-muted-foreground">Sito Web</div>
+                            <a href={azienda.sito_web} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+                                {azienda.sito_web.replace(/https?:\/\//, '')}
+                            </a>
+                        </div>
+                    </div>
+                )}
+
+                <!-- Report -->
+                <div class="bg-muted/50 rounded-xl border border-border p-6">
+                    <h3 class="font-semibold text-foreground mb-2">Segnala un problema</h3>
+                    <p class="text-sm text-muted-foreground mb-4">
+                        Hai notato informazioni errate o contenuti inappropriati?
+                    </p>
+                    <a 
+                        href={`/contatti?azienda=${azienda.nome}`}
+                        class="text-sm text-primary hover:underline flex items-center gap-1"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                        Segnala questa pagina
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>

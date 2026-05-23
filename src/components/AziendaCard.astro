@@ -1,6 +1,6 @@
 ---
 import type { Azienda } from '../lib/types'
-import { getCittaById, getAmbitoById } from '../lib/data'
+import { getCittaById, getAmbitoById, slugify } from '../lib/data'
 
 interface Props {
     azienda: Azienda;
@@ -11,7 +11,7 @@ const cittaObj = getCittaById(azienda.id_citta);
 ---
 
 <a 
-    href={`/aziende/${azienda.id}`}
+    href={`/aziende/${slugify(azienda.nome)}`}
     class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group"
 >
     <div class="flex items-start gap-4 mb-4">

@@ -1,0 +1,316 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCitta, getAmbiti } from "../lib/data";
+---
+
+<Layout title="Registra Azienda">
+    <div class="py-12 px-4">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-foreground mb-2">Registra la tua Azienda</h1>
+                <p class="text-muted-foreground">Compila il form per aggiungere la tua azienda al portale</p>
+            </div>
+
+            <div class="bg-card rounded-xl border border-border p-8">
+                <form id="form-registrazione" class="space-y-6" enctype="multipart/form-data">
+                    <!-- Info dell'Account aziendale -->
+                    <div class="space-y-4">
+                        <h2 class="text-lg font-semibold text-foreground border-b border-border pb-2">Informazioni Account</h2>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-foreground mb-2">
+                                Email Aziendale *
+                            </label>
+                            <input 
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                                class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                placeholder="info@azienda.it"
+                            />
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-foreground mb-2">
+                                    Password *
+                                </label>
+                                <input 
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    required
+                                    minlength="8"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
+                            <div>
+                                <label for="password-confirm" class="block text-sm font-medium text-foreground mb-2">
+                                    Conferma Password *
+                                </label>
+                                <input 
+                                    type="password"
+                                    id="password-confirm"
+                                    name="password-confirm"
+                                    required
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informazioni dell'Azienda -->
+                    <div class="space-y-4">
+                        <h2 class="text-lg font-semibold text-foreground border-b border-border pb-2">Informazioni Azienda</h2>
+
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-foreground mb-2">
+                                Nome Azienda *
+                            </label>
+                            <input 
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                required
+                                class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                placeholder="Nome della tua azienda"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="descrizione" class="block text-sm font-medium text-foreground mb-2">
+                                Descrizione *
+                            </label>
+                                <textarea 
+                                    name="descrizione" 
+                                    id="descrizione"
+                                    required
+                                    rows="4"
+                                    class="w-full px-3 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                                    placeholder="Descrizi la tua azienda, cosa fate, le tecnologie che usate..."
+                                ></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="citta" class="block text-sm font-medium text-foreground mb-2">
+                                    Citta *
+                                </label>
+                                <select 
+                                    name="citta" 
+                                    id="citta"
+                                    required
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                >
+                                <option value="">Seleziona citta</option>
+                                {getCitta().map(c => (
+                                    <option value={c.id}>{c.nome}</option>
+                                ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="dimensione" class="block text-sm font-medium text-foreground mb-2">
+                                    Dimensione *
+                                </label>
+                                <input 
+                                    type="text"
+                                    id="dimensione"
+                                    name="dimensione"
+                                    required
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    placeholder="Startup / PMI / Grande Azienda"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-foreground mb-2">
+                                Lavoro da Remoto *
+                            </label>
+                            <div class="flex gap-4">
+                                <input 
+                                    type="text"
+                                    id="remoto"
+                                    name="remoto"
+                                    required
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    placeholder="Sì / No / Ibrido"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-foreground mb-2">
+                                Ambiti di Lavoro *
+                            </label>
+                            <div class="grid grid-cols-2 gap-2">
+                                {getAmbiti().map(a => (
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input 
+                                            type="checkbox"
+                                            name="ambiti"
+                                            value={a.id}
+                                            class="w-4 h-4 rounded cursor-pointer"
+                                        />
+                                        <span class="text-sm text-muted-foreground">{a.nome}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informazioni sui Contatti (Opzionale) -->
+                    <div class="space-y-4">
+                        <h2 class="text-lg font-semibold text-foreground border-b border-border pb-2">Contatti (Opzionali)</h2>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="telefono" class="block text-sm font-medium text-foreground mb-2">
+                                    Telefono
+                                </label>
+                                <input 
+                                    type="tel"
+                                    id="telefono"
+                                    name="telefono"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-rin"
+                                    placeholder="+39"
+                                />
+                            </div>
+                            <div>
+                                <label for="sito" class="block text-sm font-medium text-foreground mb-2">
+                                    Sito Web
+                                </label>
+                                <input 
+                                    type="url"
+                                    id="sito"
+                                    name="sito"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    placeholder="https://"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="indirizzo" class="block text-sm font-medium text-foreground mb-2">
+                                    Indirizzo
+                                </label>
+                                <input 
+                                    type="text"
+                                    id="indirizzo"
+                                    name="indirizzo"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    placeholder="Via Roma 123, Cesena"
+                                />
+                            </div>
+
+                            <div>
+                                <label for="logo" class="block text-sm font-medium text-foreground mb-2">
+                                    Logo
+                                </label>
+                                <input 
+                                    type="file"
+                                    id="logo"
+                                    name="logo"
+                                    accept="image/*"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Termini -->
+                    <label class="flex items-start gap-2 cursor-pointer">
+                        <input 
+                            type="checkbox"
+                            name="privacy"
+                            required
+                            class="w-4 h-4 rounded border-input mt-0.5 cursor-pointer"
+                        />
+                        <span class="text-sm text-muted-foreground">
+                            Accetto la <a href="/privacy" class="text-primary hover:underline">Privacy Policy</a> e i <a href="/termini" class="text-primary hover:underline">Termini di Servizio</a>
+                        </span>
+                    </label>
+
+                    <button
+                        type="submit"
+                        class="w-full h-12 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
+                    >
+                        Registra Azienda
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-muted-foreground">
+                        Hai già un account aziendale?
+                        <a href="/login" class="text-primary hover:underline ml-1">Accedi</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Script caricato!')
+
+        const form = document.getElementById('form-registrazione')
+        console.log('Form trovato: ', form)
+
+        form?.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            console.log('Form submitted')
+
+            const formData = new FormData(e.target as HTMLFormElement)
+
+            const response = await fetch('/api/registra-azienda', {
+                method: 'POST',
+                body: formData
+            })
+
+            const data = await response.json()
+            console.log('Risposta: ', data)
+
+            if (data.success) {
+                window.location.href = '/'
+                alert('Azienda registrata con successo!')
+            } else {
+                alert('Errore: ' + data.error)
+            }
+        })
+    })
+
+    /* document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        console.log('Form submitted!')
+
+        const form = e.target as HTMLFormElement
+        const formData = new FormData(form)
+
+        console.log('Chiamo endpoint...')
+
+        try {
+            const response = await fetch('/api/registra-azienda', {
+                method: 'POST',
+                body: formData
+            })
+
+            const data = await response.json()
+
+            console.log('Risposta:', data)
+
+            if(data.success) {
+                alert('Azienda registrata con successo!')
+                window.location.href = '/'
+            } else {
+                alert('Errore durante la registrazione: ' + data.error)
+            }
+        } catch (error) {
+            alert('Errore di connessione')
+        }
+    }) */
+</script>

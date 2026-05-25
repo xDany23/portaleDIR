@@ -17,6 +17,7 @@ export interface Azienda {
     lavoro_da_remoto: string
     sito_web: string
     email_contatto: string
+    password: string
     telefono: string
     dimensione: string
     logo_url: string

@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css'
 
-import { getCitta } from '../lib/data'
+import { getCitta, slugify } from '../lib/data'
 
 const citta = getCitta()
 const cittaInEvidenza = citta.slice(0,4)
@@ -13,6 +13,8 @@ interface Props {
 }
 
 const { title, description = "Scopri le aziende IT della Romagna. Trova stage e opportunità di lavoro nel settore tecnologico" } = Astro.props
+
+const aziendaLoggata = Astro.locals.azienda
 ---
 
 <!DOCTYPE html>
@@ -61,23 +63,42 @@ const { title, description = "Scopri le aziende IT della Romagna. Trova stage e 
                         Registrati
                     </a>
                 </div> -->
-                <div class="flex h-16 items-center justify-self-end">
-                    <div class="flex items-center gap-3 m-0.5 hover">
-                        <a 
-                            href="/login"
-                            class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
-                        >
-                            Accedi
+                <div class="flex h-16 items-center justify-self-end gap-3">
+                    {aziendaLoggata ? (
+                        <a href={`/aziende/${slugify(aziendaLoggata.nome)}`} class="flex items-center gap-3 hover:opacity-70">
+                            <img 
+                                src={aziendaLoggata.logo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${aziendaLoggata.nome}`} 
+                                alt={aziendaLoggata.nome}
+                                class="w-8 h-8 rounded-full object-cover"
+                            />
+                            <span class="text-sm font-medium text-foreground">
+                                {aziendaLoggata.nome}
+                            </span>
                         </a>
-                    </div>
-                    <div class="flex items-center gap-3 m-0.5">
                         <a 
-                            href="/registra"
-                            class="inline-flex items-center justify-center rounded-md bg-gradient-to-l from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
+                            href="/api/logout"
+                            class="inline-flex items-center justify-center bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm font-medium shadow hover:bg-destructive/70 transition-colors"
                         >
-                            Registra la tua azienda
+                            Logout
                         </a>
-                    </div>
+                    ) : (
+                        <div class="flex items-center gap-3 m-0.5 hover">
+                            <a 
+                                href="/login"
+                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
+                            >
+                                Accedi
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-3 m-0.5">
+                            <a 
+                                href="/registra"
+                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-l from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
+                            >
+                                Registra la tua azienda
+                            </a>
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

@@ -1,0 +1,98 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getAziende, slugify } from "../lib/data";
+import bcrypt from "bcryptjs";
+
+let error = ""
+
+if (Astro.request.method === "POST") {
+    // leggo email e password inseriti
+    // controllo hash
+    // imposto i cookie della sessione
+    // faccio redirect alla pagina dell'azienda
+    const form = await Astro.request.formData()
+    const email = form.get('email')?.toString() || ""
+    const pass = form.get('password')?.toString() || ""
+
+    const azienda = getAziende().find(a => a.email_contatto === email)
+
+    if (!azienda) {
+        error = 'Email non trovata'
+        console.log("email non trovata")
+    } else {
+        const ok = await bcrypt.compare(pass, azienda.password_hash)
+        if (!ok) {
+            error = 'Password errata'
+            console.log("password sbagliata")
+        } else {
+            Astro.cookies.set('azienda_id', azienda.id, {
+                path: "/",              //significa che il cookie è valido in tutto il sito
+                httpOnly: true,         //è un protezione che dice che il cookie non può essere letto da Javascript, protezione da script malevoli
+                secure: true,           //significa che il cookie viene inviato SOLO su HTTPS, non viaggia mai in chiaro
+                maxAge: 60 * 60 * 24 * 7        //durata massima del cookie in secondi
+            })
+
+            return Astro.redirect(`/aziende/${slugify(azienda.nome)}`)
+        }
+    }
+}
+---
+
+<Layout title="Accedi">
+    <div class="min-h-[80vh] flex items-center justify-center py-12 px-4">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-foreground mb-2">Bentornato!</h1>
+                <p class="text-muted-foreground">Accedi al tuo account per continuare</p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST" id="login-form" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-foreground mb-2">
+                        Email
+                    </label>
+                    <input 
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="nome@esempio.it"
+                    />
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-foreground mb-2">
+                        Password
+                    </label>
+                    <input 
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                        class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="La tua password"
+                    />
+                </div>
+
+                <!-- si può mettere ancora un bottone per dire di "ricordarsi" di me nel sito -->
+                <!-- e si può anche mettere un bottone in caso ci si sia dimenticati la password -->
+                
+                <button
+                    type="submit"
+                    class="w-full h-10 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                    Accedi
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-muted-foreground">
+                    Non hai un account?
+                    <a href="/registra" class="text-primary hover:underline ml-1">Registrati</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</Layout>

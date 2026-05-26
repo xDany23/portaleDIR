@@ -54,8 +54,10 @@ const citta = getCittaById(azienda.id_citta)
                             </div>
                             <div class="flex flex-warp gap-2">
                                 <span class="inline-flex items-center px-3 py-1 rounded-md border text-sm font-medium bg-blue-100 text-blue-800 border-blue-200">
-                                    {azienda.lavoro_da_remoto}
+                                    Lavoro da remoto: {azienda.lavoro_da_remoto}
                                 </span>
+                            </div>
+                            <div class="flex flex-warp gap-2 mt-2">
                                 {azienda.ambiti.map((ambitoId) => {
                                     const ambito = getAmbitoById(ambitoId);
                                     return ambito && (

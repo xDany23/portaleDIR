@@ -134,5 +134,26 @@
       "7",
       "9"
     ]
+  },
+  {
+    "id": "8",
+    "nome": "Enrico's Company",
+    "descrizione": "Azienda gestita esclusivamente da Enrico",
+    "email_contatto": "Enrico@prova.it",
+    "password_hash": "$2b$10$18xUiyzPZvNTCQRfOd3i8eTNZOnr6GOlGEhD/kzQTkr3qjB33HdwK",
+    "telefono": "47392737693",
+    "sito_web": "",
+    "dimensione": "Startup",
+    "lavoro_da_remoto": "No",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "5",
+    "ambiti": [
+      "2",
+      "4",
+      "11"
+    ]
   }
 ]

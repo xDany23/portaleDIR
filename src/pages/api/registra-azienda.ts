@@ -3,17 +3,11 @@ import { aggiungiAzienda, getAmbiti } from "../../lib/data";
 import { success } from "astro:schema";
 import fs from 'fs';
 import path from 'path';
+import bcrypt from "bcryptjs";
 
 export const POST: APIRoute = async ({request}) => {
-    console.log('Endopoint chiamato')
 
     const formData = await request.formData()
-
-    console.log('Dati ricevuti:')
-    console.log('nome:', formData.get('nome'))
-    console.log('email:', formData.get('email'))
-    console.log('citta:', formData.get('citta'))
-    console.log('ambiti:', formData.getAll('ambiti'))
 
     //Solo per il logo
     let logo_url = ''
@@ -39,11 +33,17 @@ export const POST: APIRoute = async ({request}) => {
         logo_url = `/loghi/${nomeFile}`
     }
 
+    //prendo la password inserita dall'azienda
+    const password = formData.get('password')?.toString() || ""
+
+    //crypto la password
+    const password_hash = await bcrypt.hash(password, 10)
+
     const nuovaAzienda = {
         nome: formData.get('nome') as string,
         descrizione: formData.get('descrizione') as string,
         email_contatto: formData.get('email') as string,
-        password: formData.get('password') as string,
+        password_hash,
         telefono: formData.get('telefono') as string || '',
         sito_web: formData.get('sito') as string || '',
         dimensione: formData.get('dimensione') as string,

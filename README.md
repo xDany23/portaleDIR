@@ -93,7 +93,6 @@ src/
   "nome": "string",
   "descrizione": "string",
   "lavoro_da_remoto": "si | no | ibrido",
-  "offre_tirocini": "boolean",
   "sito_web": "string",
   "email_contatto": "string",
   "telefono": "string",

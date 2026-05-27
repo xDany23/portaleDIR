@@ -18,6 +18,73 @@
       "2",
       "4",
       "11"
-    ]
+    ],
+    "da_verificare": true
+  },
+  {
+    "id": "2",
+    "nome": "Daniele's Company",
+    "descrizione": "Azienda di Daniele",
+    "email_contatto": "Daniele@prova.it",
+    "password_hash": "$2b$10$ypl4KbBuyj4/4DlpDuqojuKXuQWywNJCerfC2vrwR3LTu8s3h1p0i",
+    "telefono": "3338827024",
+    "sito_web": "",
+    "dimensione": "Grande Azienda",
+    "lavoro_da_remoto": "Ibrido",
+    "logo_url": "/loghi/1779878379005-daniele's-company.png",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "6",
+    "ambiti": [
+      "8",
+      "10",
+      "11",
+      "12"
+    ],
+    "da_verificare": true
+  },
+  {
+    "id": "3",
+    "nome": "Azienda Francesca",
+    "descrizione": "Azienda molto bella e creata da Francesca",
+    "email_contatto": "Francesca@prova.it",
+    "password_hash": "$2b$10$sxgYA1TAtB8ky7WAmYxy8e1/q4fnrnaSl5y7gPGVX2I3uK7sId.JG",
+    "telefono": "33398273094",
+    "sito_web": "",
+    "dimensione": "PMI",
+    "lavoro_da_remoto": "Sì",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "2",
+    "ambiti": [
+      "1",
+      "3"
+    ],
+    "da_verificare": false
+  },
+  {
+    "id": "4",
+    "nome": "Marco's Company",
+    "descrizione": "Azienda esclusiva ad opera solo di Marco e dei suoi collaboratori",
+    "email_contatto": "Marco@prova.it",
+    "password_hash": "$2b$10$7bvuGn.7iyx84cQl1gQGKeRaX.JrSiP6TxgBB3j3RsJiBGEijX3oS",
+    "telefono": "23238323",
+    "sito_web": "",
+    "dimensione": "Grande Aziende",
+    "lavoro_da_remoto": "No",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "7",
+    "ambiti": [
+      "3",
+      "7",
+      "11"
+    ],
+    "da_verificare": false
   }
 ]

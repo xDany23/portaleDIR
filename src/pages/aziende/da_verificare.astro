@@ -8,7 +8,7 @@ const searchQuery = url.searchParams.get('q') || ''
 const cittaFilter = url.searchParams.getAll('citta')
 const ambitoFilter = url.searchParams.getAll('ambito')
 
-let aziendeFiltrate = [...getAziende().filter(a => a.da_verificare === false)]
+let aziendeFiltrate = [...getAziende().filter(a => a.da_verificare === true)]
 
 if (searchQuery) {
     const query = searchQuery.toLowerCase()
@@ -34,8 +34,6 @@ console.log('URL:', Astro.request.url)
 console.log('searchQuery:', searchQuery)
 console.log('cittaFilter:', cittaFilter)
 console.log('ambitoFilter:', ambitoFilter)
-
-aziendeFiltrate.filter(a => a.da_verificare === false)
 ---
 
 <Layout title="Tutte le aziende" description="Esplora tutte le aziende IT della Romagna. Filtra per citta o ambito di lavoro">
@@ -133,7 +131,7 @@ aziendeFiltrate.filter(a => a.da_verificare === false)
                         <div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         </div>
-                        <h3 class="text-lg font-semibold text-foreground mb-2">Nessuna azienda trovata</h3>
+                        <h3 class="text-lg font-semibold text-foreground mb-2">Nessuna azienda da verificare</h3>
                         <p class="text-muted-foreground mb-4">Prova a modificare i filtri di ricerca</p>
                         <a href="/aziende" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
                     </div>

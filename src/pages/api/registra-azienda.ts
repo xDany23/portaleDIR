@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { aggiungiAzienda, getAmbiti } from "../../lib/data";
-import { success } from "astro:schema";
 import fs from 'fs';
 import path from 'path';
 import bcrypt from "bcryptjs";
@@ -53,7 +52,8 @@ export const POST: APIRoute = async ({request}) => {
         latitudine: 0,
         longitudine: 0,
         id_citta: formData.get('citta') as string,
-        ambiti: formData.getAll('ambiti') as string[]
+        ambiti: formData.getAll('ambiti') as string[],
+        da_verificare: true
     }
 
     try {

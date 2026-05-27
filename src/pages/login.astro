@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getAziende, slugify } from "../lib/data";
+import { getAdmin, getAdminById, getAziende, slugify } from "../lib/data";
 import bcrypt from "bcryptjs";
 
 let error = ""
@@ -14,25 +14,25 @@ if (Astro.request.method === "POST") {
     const email = form.get('email')?.toString() || ""
     const pass = form.get('password')?.toString() || ""
 
-    const azienda = getAziende().find(a => a.email_contatto === email)
+    const admin = getAdmin().find(a => a.email === email)
 
-    if (!azienda) {
+    if (!admin) {
         error = 'Email non trovata'
         console.log("email non trovata")
     } else {
-        const ok = await bcrypt.compare(pass, azienda.password_hash)
+        const ok = await bcrypt.compare(pass, admin.password)
         if (!ok) {
             error = 'Password errata'
             console.log("password sbagliata")
         } else {
-            Astro.cookies.set('azienda_id', azienda.id, {
+            Astro.cookies.set('admin_id', admin.id, {
                 path: "/",              //significa che il cookie è valido in tutto il sito
                 httpOnly: true,         //è un protezione che dice che il cookie non può essere letto da Javascript, protezione da script malevoli
                 secure: true,           //significa che il cookie viene inviato SOLO su HTTPS, non viaggia mai in chiaro
                 maxAge: 60 * 60 * 24 * 7        //durata massima del cookie in secondi
             })
 
-            return Astro.redirect(`/aziende/${slugify(azienda.nome)}`)
+            return Astro.redirect(`/`)
         }
     }
 }

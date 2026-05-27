@@ -26,4 +26,12 @@ export interface Azienda {
     longitudine: number
     id_citta: string
     ambiti: string[]
+    da_verificare: boolean
+}
+
+export interface Admin {
+    id: string
+    email: string
+    nome: string
+    password: string
 }

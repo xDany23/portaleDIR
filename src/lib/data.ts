@@ -1,10 +1,11 @@
-import type { Citta } from './types'
+import type { Admin, Citta } from './types'
 import type { Ambito } from './types'
 import type { Azienda } from './types'
 
 import aziende from '../data/aziende.json'
 import citta from '../data/citta.json'
 import ambiti from '../data/ambiti.json'
+import admin from '../data/admin.json'
 
 import fs from 'fs'
 import path from 'path'
@@ -200,4 +201,29 @@ export function rimuoviAmbito(id: string): boolean {
     if (nuoviAmbiti.length === ambiti.length) return false
     salvaAmbiti(nuoviAmbiti)
     return true
+}
+
+//funzioni per gli admin
+export function getAdmin(): Admin[] {
+    return admin as Admin[]
+}
+
+export function getAdminById(id: string): Admin | undefined {
+    return admin.find(a => a.id === id) as Admin | undefined
+}
+
+function salvaAdmin(nuovoAdmin: Admin[]): void {
+    fs.writeFileSync(
+        path.join(DATA_PATH, 'admin.json'),
+        JSON.stringify(nuovoAdmin, null, 2),
+        'utf-8'
+    )
+}
+
+export function aggiungiAdmin(nuovoAdmin: Omit<Admin, 'id'>): Admin {
+    const admins = getAdmin();
+    const id = (admins.length + 1).toString()
+    const adminCompleto = { id, ...nuovoAdmin}
+    salvaAdmin([...admin, adminCompleto])
+    return adminCompleto
 }

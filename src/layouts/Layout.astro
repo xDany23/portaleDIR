@@ -14,7 +14,7 @@ interface Props {
 
 const { title, description = "Scopri le aziende IT della Romagna. Trova stage e opportunità di lavoro nel settore tecnologico" } = Astro.props
 
-const aziendaLoggata = Astro.locals.azienda
+const adminLoggato = Astro.locals.admin
 ---
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ const aziendaLoggata = Astro.locals.azienda
 </head>
     <body class="min-h-screen flex flex-col font-sans antialiased">
         <header class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div class="container mx-auto h-16 grid grid-cols-3 items-center">
+            <div class="container mx-auto h-16 flex items-center justify-between md:grid md:grid-cols-3">
                 <a href="/" class="flex items-center gap-2 justify-self-start">
                     <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                         <span class="text-primary-foreground font-bold text-sm">IT</span>
@@ -64,17 +64,10 @@ const aziendaLoggata = Astro.locals.azienda
                     </a>
                 </div> -->
                 <div class="flex h-16 items-center justify-self-end gap-3">
-                    {aziendaLoggata ? (
-                        <a href={`/aziende/${slugify(aziendaLoggata.nome)}`} class="flex items-center gap-3 hover:opacity-70">
-                            <img 
-                                src={aziendaLoggata.logo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${aziendaLoggata.nome}`} 
-                                alt={aziendaLoggata.nome}
-                                class="w-8 h-8 rounded-full object-cover"
-                            />
-                            <span class="text-sm font-medium text-foreground">
-                                {aziendaLoggata.nome}
-                            </span>
-                        </a>
+                    {adminLoggato ? (
+                        <span class="text-sm font-medium text-foreground">
+                            Bentornato {adminLoggato.nome}
+                        </span>
                         <a 
                             href="/api/logout"
                             class="inline-flex items-center justify-center bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm font-medium shadow hover:bg-destructive/70 transition-colors"
@@ -82,18 +75,10 @@ const aziendaLoggata = Astro.locals.azienda
                             Logout
                         </a>
                     ) : (
-                        <div class="flex items-center gap-3 m-0.5 hover">
-                            <a 
-                                href="/login"
-                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
-                            >
-                                Accedi
-                            </a>
-                        </div>
                         <div class="flex items-center gap-3 m-0.5">
                             <a 
                                 href="/registra"
-                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-l from-primary to-secondary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
+                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-l from-primary to-secondary px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
                             >
                                 Registra la tua azienda
                             </a>

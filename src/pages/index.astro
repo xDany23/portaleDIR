@@ -8,12 +8,13 @@ const citta = getCitta()
 const ambiti = getAmbiti()
 const aziende = getAziende()
 
-const totaleAziende = aziende.length;
+const totaleAziende = aziende.filter(a => a.da_verificare === false).length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
-const aziendeInEvidenza = aziende.slice(0, 3)
+const aziendeInEvidenza = aziende.filter(a => a.da_verificare === false).slice(0, 3)
 const cittaInEvidenza = citta.slice(0,5)
 
+const adminLoggato = Astro.locals.admin
 ---
 
 <Layout title="Homepage">
@@ -112,12 +113,39 @@ const cittaInEvidenza = citta.slice(0,5)
 			</div>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				{aziendeInEvidenza.map(a => (
+				{aziendeInEvidenza.filter(a => a.da_verificare === false).map(a => (
 					<AziendaCard azienda={a}/>
 				))}
 			</div>
 		</div>
 	</section>
+
+	{adminLoggato && (
+		<section class="py-16 lg:py-24">
+		<div class="container mx-auto px-4">
+			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+				<div>
+					<h2 class="text-3xl font-bold text-foreground mb-2">Aziende da verificare</h2>
+					<p class="text-muted-foreground">Queste aziende aspettano di poter far parte del portale</p>
+				</div>
+				<a 
+					href="/aziende/da_verificare"
+					class="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
+				>
+					Aziende da verificare
+					<!-- freccia verso destra -->
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+				</a>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{aziende.filter(a => a.da_verificare === true).map(a => (
+					<AziendaCard azienda={a}/>
+				))}
+			</div>
+		</div>
+	</section>
+	)}
 
 	<!-- Sezione per gli Ambiti di Lavoro -->
 	<section class="py-16 lg:py-24 bg-muted/80">
@@ -129,7 +157,7 @@ const cittaInEvidenza = citta.slice(0,5)
 
 			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 				{ambiti.map(ambito => {
-					const count = aziende.filter(a => a.ambiti.includes(ambito.id)).length;
+					const count = aziende.filter(a => a.da_verificare === false).filter(a => a.ambiti.includes(ambito.id)).length;
 					const icon = immaginiAmbiti[ambito.id]
 					return (
 						<a 

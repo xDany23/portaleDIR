@@ -8,6 +8,8 @@ interface Props {
 
 const { azienda } = Astro.props;
 const cittaObj = getCittaById(azienda.id_citta);
+
+const adminLoggato = Astro.locals.admin
 ---
 
 <a 
@@ -29,6 +31,29 @@ const cittaObj = getCittaById(azienda.id_citta);
                 {cittaObj?.nome || 'Romagna'}
             </p>
         </div>
+        {adminLoggato && azienda.da_verificare === true && (
+            <span class="text-destructive">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    >
+                    <circle cx="12" cy="12" r="10" fill="currentColor" />
+                    <line
+                        x1="12"
+                        y1="7"
+                        x2="12"
+                        y2="13"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                    <circle cx="12" cy="17" r="1.5" fill="white" />
+                </svg>
+            </span>
+        )}
     </div>
 
     <p class="text-sm text-muted-foreground line-clamp-2 mb-4">

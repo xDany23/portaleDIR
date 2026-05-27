@@ -53,7 +53,8 @@ export const POST: APIRoute = async ({request}) => {
         longitudine: 0,
         id_citta: formData.get('citta') as string,
         ambiti: formData.getAll('ambiti') as string[],
-        da_verificare: true
+        da_verificare: true,
+        visite: 0
     }
 
     try {

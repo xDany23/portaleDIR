@@ -11,7 +11,9 @@ const aziende = getAziende()
 const totaleAziende = aziende.filter(a => a.da_verificare === false).length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
-const aziendeInEvidenza = aziende.filter(a => a.da_verificare === false).slice(0, 3)
+const aziendeInEvidenza = aziende.filter(a => a.da_verificare === false)
+									.sort((a,b) => (b.visite || 0) - (a.visite || 0))
+									.slice(0, 3)
 const cittaInEvidenza = citta.slice(0,5)
 
 const adminLoggato = Astro.locals.admin

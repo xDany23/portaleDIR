@@ -151,6 +151,17 @@ export function aggiornaAzienda(id: string, dati: Partial<Azienda>): Azienda | u
     return aziende[index]
 }
 
+export function incrementaVisite(id: string): Azienda | undefined {
+    const aziende = getAziende()
+    const index = aziende.findIndex(a => a.id === id)
+    if (index === -1) return undefined
+
+    aziende[index].visite = (aziende[index].visite || 0) + 1
+
+    salvaAziende(aziende)
+    return aziende[index]
+}
+
 //città
 
 function salvaCitta(nuoveCitta: Citta[]): void {

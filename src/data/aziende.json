@@ -20,7 +20,7 @@
       "11"
     ],
     "da_verificare": true,
-    "visite": 0
+    "visite": 5
   },
   {
     "id": "2",
@@ -89,6 +89,6 @@
       "11"
     ],
     "da_verificare": false,
-    "visite": 3
+    "visite": 5
   }
 ]

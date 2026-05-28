@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import AziendaCard from "../../components/AziendaCard.astro";
 import { getAziende, getCitta, getAmbiti } from "../../lib/data";
+import { redirectToDefaultLocale } from "astro:i18n";
 
 const url = new URL(Astro.request.url)
 const searchQuery = url.searchParams.get('q') || ''
@@ -30,10 +31,9 @@ if (ambitoFilter.length > 0) {
 
 const hasFilters = searchQuery || cittaFilter.length > 0 || ambitoFilter.length > 0
 
-console.log('URL:', Astro.request.url)
-console.log('searchQuery:', searchQuery)
-console.log('cittaFilter:', cittaFilter)
-console.log('ambitoFilter:', ambitoFilter)
+if (!Astro.locals.admin) {
+    return Astro.redirect('/login')
+}
 ---
 
 <Layout title="Tutte le aziende" description="Esplora tutte le aziende IT della Romagna. Filtra per citta o ambito di lavoro">

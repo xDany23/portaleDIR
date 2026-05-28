@@ -7,3 +7,11 @@ export const GET: APIRoute = async({ cookies, redirect }) => {
 
     return redirect("/")
 }
+
+export const POST: APIRoute = async({ cookies, redirect}) => {
+    cookies.delete("azienad_id", {
+        path: "/"
+    })
+
+    return redirect("/")
+}

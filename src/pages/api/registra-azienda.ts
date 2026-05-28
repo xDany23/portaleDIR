@@ -1,12 +1,25 @@
 import type { APIRoute } from "astro";
-import { aggiungiAzienda, getAmbiti } from "../../lib/data";
+import { aggiungiAzienda, getAziende } from "../../lib/data";
 import fs from 'fs';
 import path from 'path';
 import bcrypt from "bcryptjs";
+import { success } from "astro:schema";
 
 export const POST: APIRoute = async ({request, redirect}) => {
 
     const formData = await request.formData()
+
+    //controllo se esiste già un'azienda registrata con questa mail
+    const aziende = getAziende()
+    const esiste = aziende.find(a => a.email_contatto === formData.get('email'))
+
+    if (esiste) {
+        return new Response(JSON.stringify({
+            success: false,
+            error: "Esiste già un'azienda registrata con questa email"
+        }), { status: 400 })
+    }
+
 
     //prendo la password inserita dall'azienda
     const password = formData.get('password')?.toString() || ""

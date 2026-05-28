@@ -290,6 +290,27 @@ import { getCitta, getAmbiti } from "../lib/data";
             validaCampo(email, email.value.includes("@"), "Inserisci un'email valida")
         }) */
 
+        email.addEventListener("input", async () => {
+            const emailPassabile = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            const valida = emailPassabile.test(email.value)
+
+            //controllo se la mail è passabile
+            if(!valida) {
+                validaCampo(email, false, "Inserisci un'email valida")
+                return
+            }
+
+            //controllo se la mail è già presente tra quelle registrate
+            const res = await fetch(`/api/check-email?email=${encodeURIComponent(email.value)}`)
+            const data = await res.json()
+
+            if (data.exists) {
+                validaCampo(email, false, "Questa email è già registrata")
+            } else {
+                validaCampo(email, true, "")
+            }
+        })
+
         pass.addEventListener("input", () => {
             aggiornaBarraPassword(pass.value)
 
@@ -411,12 +432,18 @@ import { getCitta, getAmbiti } from "../lib/data";
 
             const errori: string[] = []
 
-            //validazioni
-
             //email
             if (!email?.value.trim()) errori.push("L'email è obbligatoria")
             const emailPassabile = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)
             if (!emailPassabile) errori.push("Email non accettabile")
+
+            const res = await fetch(`/api/check-email?email=${encodeURIComponent(email.value)}`)
+            const esiste = await res.json()
+
+            if (esiste.exists) {
+                errori.push("Questa email è già registrata")
+            }
+
             if (!pass?.value.trim()) errori.push("La password è obbligatoria")
             if (!conferma?.value.trim()) errori.push("La password di conferma è obbligatoria")
             if (!nome?.value.trim()) errori.push("Il nome dell'azienda è obbligatorio")

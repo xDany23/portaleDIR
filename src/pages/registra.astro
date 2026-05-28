@@ -12,7 +12,10 @@ import { getCitta, getAmbiti } from "../lib/data";
             </div>
 
             <div class="bg-card rounded-xl border border-border p-8">
-                <form id="form-registrazione" class="space-y-6" enctype="multipart/form-data">
+                <div id="errore" class="hidden p-4 mb-4 rounded-lg bg-destructive-foreground text-destructive border border-accent">
+
+                </div>
+                <form id="form-registrazione" class="space-y-6" enctype="multipart/form-data" novalidate>
                     <!-- Info dell'Account aziendale -->
                     <div class="space-y-4">
                         <h2 class="text-lg font-semibold text-foreground border-b border-border pb-2">Informazioni Account</h2>
@@ -25,9 +28,10 @@ import { getCitta, getAmbiti } from "../lib/data";
                                 id="email"
                                 name="email"
                                 required
-                                class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none"
                                 placeholder="info@azienda.it"
                             />
+                            <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -40,8 +44,15 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     name="password"
                                     required
                                     minlength="8"
-                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2"
                                 />
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
+                                <div id="password-strength" class="mt-2 h-2 w-full bg-muted rounded overflow-hidden">
+                                    <div id="password-bar" class="h-full w-0 transition-all duration-300"></div>
+                                </div>
+
+                                <p id="password-strength-text" class="text-sm mt-1 text-muted-foreground"></p>
+
                             </div>
                             <div>
                                 <label for="password-confirm" class="block text-sm font-medium text-foreground mb-2">
@@ -52,8 +63,9 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     id="password-confirm"
                                     name="password-confirm"
                                     required
-                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2"
                                 />
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
                     </div>
@@ -74,6 +86,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                 class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                 placeholder="Nome della tua azienda"
                             />
+                            <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                         </div>
 
                         <div>
@@ -88,6 +101,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     class="w-full px-3 py-2 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                                     placeholder="Descrizi la tua azienda, cosa fate, le tecnologie che usate..."
                                 ></textarea>
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
@@ -106,6 +120,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     <option value={c.id}>{c.nome}</option>
                                 ))}
                                 </select>
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
 
                             <div>
@@ -120,6 +135,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                     placeholder="Startup / PMI / Grande Azienda"
                                 />
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
 
@@ -136,6 +152,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                     class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                     placeholder="Sì / No / Ibrido"
                                 />
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
 
@@ -155,6 +172,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                                         <span class="text-sm text-muted-foreground">{a.nome}</span>
                                     </label>
                                 ))}
+                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
                     </div>
@@ -253,17 +271,186 @@ import { getCitta, getAmbiti } from "../lib/data";
 </Layout>
 
 <script>
-
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('Script caricato!')
 
+        const boxErrore = document.getElementById('errore') as HTMLDivElement
         const form = document.getElementById('form-registrazione')
-        console.log('Form trovato: ', form)
+        const pass = document.getElementById('password') as HTMLInputElement
+        const conferma = document.getElementById('password-confirm') as HTMLInputElement
+        const email = document.getElementById('email') as HTMLInputElement
 
+        const nome = document.getElementById('nome') as HTMLInputElement
+        const descrizione = document.getElementById('descrizione') as HTMLTextAreaElement
+        const citta = document.getElementById('citta') as HTMLSelectElement
+        const dimensione = document.getElementById('dimensione') as HTMLInputElement
+        const remoto = document.getElementById('remoto') as HTMLInputElement
+
+        //validazione in tempo reale
+        /* email.addEventListener("input", () => {
+            validaCampo(email, email.value.includes("@"), "Inserisci un'email valida")
+        }) */
+
+        pass.addEventListener("input", () => {
+            aggiornaBarraPassword(pass.value)
+
+            const maiuscola = /[A-Z]/.test(pass.value)
+            const speciale = /[!@#$%^&*(),.?":{}|<>]/.test(pass.value)
+            const numero = /[0-9]/.test(pass.value)
+            const lunghezza = pass.value.length > 8
+
+            if (!lunghezza) {
+                validaCampo(pass, false, "Minimo 8 caratteri")
+            } else if (!maiuscola) {
+                validaCampo(pass, false, "Serve almeno una lettera maiuscola")
+            } else if (!numero) {
+                validaCampo(pass, false, "Serve almeno un numero")
+            } else if (!speciale) {
+                validaCampo(pass, false, "Serve almeno un carattere speciale")
+            } else {
+                validaCampo(pass, true, "")
+            }
+        })
+
+        conferma.addEventListener("input", () => {
+            validaCampo(conferma, conferma.value === pass.value, "Le password non coincidono")
+        })
+
+        /* nome.addEventListener("input", () => {
+            validaCampo(nome, nome.value.trim().length > 0, "Il nome è obbligatorio")
+        }) */
+
+        /* descrizione.addEventListener("input", () => {
+            validaCampo(descrizione, descrizione.value.trim().length > 0, "La descrizione è obbligatoria")
+        }) */
+
+        /* citta.addEventListener("change", () => {
+            validaCampo(citta, citta.value.trim().length > 0, "Seleziona una città")
+        }) */
+
+        //funzione
+        function validaCampo(
+            input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, 
+            condizione: boolean, 
+            messaggio: string
+        ): boolean {
+
+            const errore = input.parentElement!.querySelector("[data-error]") as HTMLParagraphElement
+
+            if (condizione) {
+                input.classList.remove("focus:ring-red-500")
+                input.classList.remove("border-red-500")
+                input.classList.add("focus:ring-green-500")
+                input.classList.add("border-green-500")
+                errore.classList.add("hidden")
+                errore.textContent = ""
+                return true
+            } else {
+                input.classList.remove("focus:ring-green-500")
+                input.classList.remove("border-green-500")
+                input.classList.add("focus:ring-red-500")
+                input.classList.add("border-red-500")
+                errore.classList.remove("hidden")
+                errore.textContent = messaggio
+                return false
+            }
+        }
+
+        function calcolaForzaPassword(password: string) {
+            let forza = 0
+
+            if (password.length >= 8) forza++
+            if (/[A-Z]/.test(password)) forza++
+            if (/[0-9]/.test(password)) forza++
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) forza++
+
+            return forza
+        }
+
+        function aggiornaBarraPassword(password: string) {
+            const forza = calcolaForzaPassword(password)
+            const bar = document.getElementById("password-bar") as HTMLDivElement
+            const text = document.getElementById("password-strength-text") as HTMLParagraphElement
+
+            let width = "0%"
+            let color = "bg-red-500"
+            let label = "Debole"
+
+            switch (forza) {
+                case 1:
+                    width = "25%"
+                    color = "bg-red-500"
+                    label = "Molto debole"
+                    break
+                case 2:
+                    width = "50%"
+                    color = "bg-orange-500"
+                    label = "Debole"
+                    break
+                case 3:
+                    width = "75%"
+                    color = "bg-yellow-500"
+                    label = "Buona"
+                    break
+                case 4:
+                    width = "100%"
+                    color = "bg-green-500"
+                    label = "Forte"
+                    break
+            }
+
+            //reset del colore delle classi
+            bar.className = "h-full transition-all duration-300 " + color
+            bar.style.width = width
+
+            text.textContent = label
+        }
+
+        //validazione al submit
         form?.addEventListener('submit', async (e) => {
             e.preventDefault()
-            console.log('Form submitted')
 
+            const errori: string[] = []
+
+            //validazioni
+
+            //email
+            if (!email?.value.trim()) errori.push("L'email è obbligatoria")
+            const emailPassabile = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)
+            if (!emailPassabile) errori.push("Email non accettabile")
+            if (!pass?.value.trim()) errori.push("La password è obbligatoria")
+            if (!conferma?.value.trim()) errori.push("La password di conferma è obbligatoria")
+            if (!nome?.value.trim()) errori.push("Il nome dell'azienda è obbligatorio")
+            if (!descrizione?.value.trim()) errori.push("La descrizione è obbligatoria")
+            if (!citta?.value.trim()) errori.push("La città è obbligatoria")
+            if (!dimensione?.value.trim()) errori.push("La dimensione è obbligatoria")
+            if (!remoto?.value.trim()) errori.push("Il campo 'Lavoro da remoto' è obbligatorio")
+
+            //ambiti
+            const ambiti = Array.from(document.querySelectorAll("input[name='ambiti']:checked"))
+            if (ambiti.length === 0) errori.push("Seleziona almeno un ambito di lavoro")
+
+            //password
+            const maiuscola = /[A-Z]/.test(pass.value)
+            const speciale = /[!@#$%^&*(),.?":{}|<>]/.test(pass.value)
+            const numero = /[0-9]/.test(pass.value)
+            if (pass.value.length < 8) errori.push("La password deve avere almeno 8 caratteri")
+            if (!maiuscola) errori.push("La password deve contenere almeno una lettera maiuscola")
+            if (!numero) errori.push("La password deve contenere almeno un numero")
+            if (!speciale) errori.push("La password deve contenere almeno un carattere speciale")
+
+            if (pass.value !== conferma.value) errori.push("Le password non coincidono")
+
+            //in caso di errori li mostro
+            if (errori.length > 0) {
+                boxErrore.innerHTML = errori[0]
+                boxErrore.classList.remove('hidden')
+
+                window.scrollTo({ top: 0, behavior: "smooth" })
+
+                return
+            }
+
+            //altrimenti invio tutto al server
             const formData = new FormData(e.target as HTMLFormElement)
 
             const response = await fetch('/api/registra-azienda', {
@@ -272,45 +459,15 @@ import { getCitta, getAmbiti } from "../lib/data";
             })
 
             const data = await response.json()
-            console.log('Risposta: ', data)
 
             if (data.success) {
                 window.location.href = '/'
                 alert('Azienda registrata con successo!')
             } else {
-                alert('Errore: ' + data.error)
+                boxErrore!.textContent = data.error
+                boxErrore!.classList.remove('hidden')
+                return
             }
         })
     })
-
-    /* document.getElementById('register-form')?.addEventListener('submit', async (e) => {
-        e.preventDefault()
-
-        console.log('Form submitted!')
-
-        const form = e.target as HTMLFormElement
-        const formData = new FormData(form)
-
-        console.log('Chiamo endpoint...')
-
-        try {
-            const response = await fetch('/api/registra-azienda', {
-                method: 'POST',
-                body: formData
-            })
-
-            const data = await response.json()
-
-            console.log('Risposta:', data)
-
-            if(data.success) {
-                alert('Azienda registrata con successo!')
-                window.location.href = '/'
-            } else {
-                alert('Errore durante la registrazione: ' + data.error)
-            }
-        } catch (error) {
-            alert('Errore di connessione')
-        }
-    }) */
 </script>

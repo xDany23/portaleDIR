@@ -4,9 +4,22 @@ import fs from 'fs';
 import path from 'path';
 import bcrypt from "bcryptjs";
 
-export const POST: APIRoute = async ({request}) => {
+export const POST: APIRoute = async ({request, redirect}) => {
 
     const formData = await request.formData()
+
+    //prendo la password inserita dall'azienda
+    const password = formData.get('password')?.toString() || ""
+    const conferma = formData.get('password-confirm')
+
+    //controllo che le password coincidano
+    if (password !== conferma) {
+        return redirect("/register?error=password_mismatch")
+    }
+
+    //crypto la password
+    const password_hash = await bcrypt.hash(password, 10)
+
 
     //Solo per il logo
     let logo_url = ''
@@ -31,12 +44,6 @@ export const POST: APIRoute = async ({request}) => {
         //l'URL pubblico adesso è /loghi/nome-file
         logo_url = `/loghi/${nomeFile}`
     }
-
-    //prendo la password inserita dall'azienda
-    const password = formData.get('password')?.toString() || ""
-
-    //crypto la password
-    const password_hash = await bcrypt.hash(password, 10)
 
     const nuovaAzienda = {
         nome: formData.get('nome') as string,

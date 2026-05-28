@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getCitta, getAmbiti } from "../lib/data";
+import { getCitta, getAmbiti} from "../lib/data";
 ---
 
 <Layout title="Registra Azienda">
@@ -21,7 +21,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                         <h2 class="text-lg font-semibold text-foreground border-b border-border pb-2">Informazioni Account</h2>
                         <div>
                             <label for="email" class="block text-sm font-medium text-foreground mb-2">
-                                Email Aziendale *
+                                Email Aziendale <span class="text-destructive">*</span>
                             </label>
                             <input 
                                 type="email"
@@ -36,7 +36,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label for="password" class="block text-sm font-medium text-foreground mb-2">
-                                    Password *
+                                    Password <span class="text-destructive">*</span>
                                 </label>
                                 <input 
                                     type="password"
@@ -56,7 +56,7 @@ import { getCitta, getAmbiti } from "../lib/data";
                             </div>
                             <div>
                                 <label for="password-confirm" class="block text-sm font-medium text-foreground mb-2">
-                                    Conferma Password *
+                                    Conferma Password <span class="text-destructive">*</span>
                                 </label>
                                 <input 
                                     type="password"
@@ -76,7 +76,7 @@ import { getCitta, getAmbiti } from "../lib/data";
 
                         <div>
                             <label for="nome" class="block text-sm font-medium text-foreground mb-2">
-                                Nome Azienda *
+                                Nome Azienda <span class="text-destructive">*</span>
                             </label>
                             <input 
                                 type="text"
@@ -91,7 +91,7 @@ import { getCitta, getAmbiti } from "../lib/data";
 
                         <div>
                             <label for="descrizione" class="block text-sm font-medium text-foreground mb-2">
-                                Descrizione *
+                                Descrizione <span class="text-destructive">*</span>
                             </label>
                                 <textarea 
                                     name="descrizione" 
@@ -107,13 +107,13 @@ import { getCitta, getAmbiti } from "../lib/data";
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label for="citta" class="block text-sm font-medium text-foreground mb-2">
-                                    Citta *
+                                    Citta <span class="text-destructive">*</span>
                                 </label>
                                 <select 
                                     name="citta" 
                                     id="citta"
                                     required
-                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2"
                                 >
                                 <option value="">Seleziona citta</option>
                                 {getCitta().map(c => (
@@ -125,40 +125,47 @@ import { getCitta, getAmbiti } from "../lib/data";
 
                             <div>
                                 <label for="dimensione" class="block text-sm font-medium text-foreground mb-2">
-                                    Dimensione *
+                                    Dimensione <span class="text-destructive">*</span>
                                 </label>
-                                <input 
-                                    type="text"
+                                <select 
+                                    name="dimensione" 
                                     id="dimensione"
-                                    name="dimensione"
                                     required
-                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                                    placeholder="Startup / PMI / Grande Azienda"
-                                />
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2"
+                                >
+                                    <option value="">Seleziona dimensione</option>
+                                    <option value="Startup">Startup</option>
+                                    <option value="PMI">PMI</option>
+                                    <option value="Grande-Azienda">Grande Azienda</option>
+                                    
+                                </select>
                                 <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-foreground mb-2">
-                                Lavoro da Remoto *
+                                Lavoro da Remoto <span class="text-destructive">*</span>
                             </label>
                             <div class="flex gap-4">
-                                <input 
-                                    type="text"
+                                <select 
+                                    name="remoto" 
                                     id="remoto"
-                                    name="remoto"
                                     required
-                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                                    placeholder="Sì / No / Ibrido"
-                                />
+                                    class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2"
+                                >
+                                    <option value="">Seleziona modalità di lavoro da remoto</option>
+                                    <option value="Si">Sì</option>
+                                    <option value="No">No</option>
+                                    <option value="Ibrido">Ibrido</option>
+                                </select>
                                 <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-foreground mb-2">
-                                Ambiti di Lavoro *
+                                Ambiti di Lavoro <span class="text-destructive">*</span>
                             </label>
                             <div class="grid grid-cols-2 gap-2">
                                 {getAmbiti().map(a => (
@@ -172,7 +179,6 @@ import { getCitta, getAmbiti } from "../lib/data";
                                         <span class="text-sm text-muted-foreground">{a.nome}</span>
                                     </label>
                                 ))}
-                                <p class="text-sm text-destructive mt-1 hidden" data-error></p>
                             </div>
                         </div>
                     </div>
@@ -271,6 +277,7 @@ import { getCitta, getAmbiti } from "../lib/data";
 </Layout>
 
 <script>
+
     document.addEventListener('DOMContentLoaded', () => {
 
         const boxErrore = document.getElementById('errore') as HTMLDivElement
@@ -282,13 +289,11 @@ import { getCitta, getAmbiti } from "../lib/data";
         const nome = document.getElementById('nome') as HTMLInputElement
         const descrizione = document.getElementById('descrizione') as HTMLTextAreaElement
         const citta = document.getElementById('citta') as HTMLSelectElement
-        const dimensione = document.getElementById('dimensione') as HTMLInputElement
-        const remoto = document.getElementById('remoto') as HTMLInputElement
+        const dimensione = document.getElementById('dimensione') as HTMLSelectElement
+        const remoto = document.getElementById('remoto') as HTMLSelectElement
+        const ambiti = Array.from(document.querySelectorAll("input[name='ambiti']:checked")) as HTMLInputElement[]
 
         //validazione in tempo reale
-        /* email.addEventListener("input", () => {
-            validaCampo(email, email.value.includes("@"), "Inserisci un'email valida")
-        }) */
 
         email.addEventListener("input", async () => {
             const emailPassabile = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -332,8 +337,25 @@ import { getCitta, getAmbiti } from "../lib/data";
             }
         })
 
+        //password di conferma
         conferma.addEventListener("input", () => {
             validaCampo(conferma, conferma.value === pass.value, "Le password non coincidono")
+        })
+
+        citta.addEventListener("change", () => {
+            validaCampo(citta, citta.value !== "", "Seleziona una città valida")        //!! vuol dire se esiste quella città
+        })
+
+        //dimensione
+        dimensione.addEventListener("change", () => {
+            const valoriValidi = ["Startup", "PMI", "Grande-Azienda"]
+            validaCampo(dimensione, valoriValidi.includes(dimensione.value), "Seleziona una dimensione valida")
+        })
+
+        //modalità di lavoro da remoto
+        remoto.addEventListener("change", () => {
+            const valoriValidi = ["Si", "No", "Ibrido"]
+            validaCampo(remoto, valoriValidi.includes(remoto.value), "Seleziona una modalità valida")
         })
 
         /* nome.addEventListener("input", () => {
@@ -350,7 +372,7 @@ import { getCitta, getAmbiti } from "../lib/data";
 
         //funzione
         function validaCampo(
-            input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, 
+            input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLInputElement, 
             condizione: boolean, 
             messaggio: string
         ): boolean {
@@ -448,12 +470,19 @@ import { getCitta, getAmbiti } from "../lib/data";
             if (!conferma?.value.trim()) errori.push("La password di conferma è obbligatoria")
             if (!nome?.value.trim()) errori.push("Il nome dell'azienda è obbligatorio")
             if (!descrizione?.value.trim()) errori.push("La descrizione è obbligatoria")
-            if (!citta?.value.trim()) errori.push("La città è obbligatoria")
-            if (!dimensione?.value.trim()) errori.push("La dimensione è obbligatoria")
-            if (!remoto?.value.trim()) errori.push("Il campo 'Lavoro da remoto' è obbligatorio")
+            if (!citta?.value.trim()) {
+                errori.push("La città è obbligatoria")
+                validaCampo(citta, false, "Seleziona una città valida")
+            }
+            if (!dimensione?.value.trim()) {
+                errori.push("La dimensione è obbligatoria")
+                validaCampo(dimensione, false, "Seleziona una dimensione valida")}
+            if (!remoto?.value.trim()) {
+                errori.push("Il campo 'Lavoro da remoto' è obbligatorio")
+                validaCampo(remoto, false, "Seleziona una modalità valida")
+            }
 
             //ambiti
-            const ambiti = Array.from(document.querySelectorAll("input[name='ambiti']:checked"))
             if (ambiti.length === 0) errori.push("Seleziona almeno un ambito di lavoro")
 
             //password

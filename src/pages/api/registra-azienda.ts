@@ -3,7 +3,7 @@ import { aggiungiAzienda, getAziende } from "../../lib/data";
 import fs from 'fs';
 import path from 'path';
 import bcrypt from "bcryptjs";
-import { success } from "astro:schema";
+import type { Dimensione, Remoto } from "../../lib/types";
 
 export const POST: APIRoute = async ({request, redirect}) => {
 
@@ -65,8 +65,8 @@ export const POST: APIRoute = async ({request, redirect}) => {
         password_hash,
         telefono: formData.get('telefono') as string || '',
         sito_web: formData.get('sito') as string || '',
-        dimensione: formData.get('dimensione') as string,
-        lavoro_da_remoto: formData.get('remoto') as string,
+        dimensione: formData.get('dimensione') as Dimensione,
+        lavoro_da_remoto: formData.get('remoto') as Remoto,
         logo_url,
         anno_fondazione: new Date().getFullYear(),
         latitudine: 0,

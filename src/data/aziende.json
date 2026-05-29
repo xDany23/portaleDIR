@@ -90,5 +90,27 @@
     ],
     "da_verificare": false,
     "visite": 6
+  },
+  {
+    "id": "5",
+    "nome": "Ale",
+    "descrizione": "Ale",
+    "email_contatto": "Alessandro@prova.it",
+    "password_hash": "$2b$10$NTV693gShlqGhZoJ.uQHAu7423jIP5tyqRQDF8RY0mA2XNXnBbs4O",
+    "telefono": "33399944034",
+    "sito_web": "",
+    "dimensione": "PMI",
+    "lavoro_da_remoto": "No",
+    "logo_url": "",
+    "anno_fondazione": "29/05/2026",
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "2",
+    "ambiti": [
+      "5",
+      "7"
+    ],
+    "da_verificare": true,
+    "visite": 1
   }
 ]

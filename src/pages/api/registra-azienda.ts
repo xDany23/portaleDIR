@@ -68,7 +68,7 @@ export const POST: APIRoute = async ({request, redirect}) => {
         dimensione: formData.get('dimensione') as Dimensione,
         lavoro_da_remoto: formData.get('remoto') as Remoto,
         logo_url,
-        anno_fondazione: new Date().getFullYear(),
+        anno_fondazione: new Date().toLocaleString().split(",")[0],
         latitudine: 0,
         longitudine: 0,
         id_citta: formData.get('citta') as string,

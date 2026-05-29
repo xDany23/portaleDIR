@@ -24,7 +24,7 @@ export interface Azienda {
     telefono: string
     dimensione: Dimensione
     logo_url: string
-    anno_fondazione: number
+    anno_fondazione: string
     latitudine: number
     longitudine: number
     id_citta: string

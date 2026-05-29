@@ -291,7 +291,6 @@ import { getCitta, getAmbiti} from "../lib/data";
         const citta = document.getElementById('citta') as HTMLSelectElement
         const dimensione = document.getElementById('dimensione') as HTMLSelectElement
         const remoto = document.getElementById('remoto') as HTMLSelectElement
-        const ambiti = Array.from(document.querySelectorAll("input[name='ambiti']:checked")) as HTMLInputElement[]
 
         //validazione in tempo reale
 
@@ -483,6 +482,7 @@ import { getCitta, getAmbiti} from "../lib/data";
             }
 
             //ambiti
+            const ambiti = Array.from(document.querySelectorAll("input[name='ambiti']:checked")) as HTMLInputElement[]
             if (ambiti.length === 0) errori.push("Seleziona almeno un ambito di lavoro")
 
             //password

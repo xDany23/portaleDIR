@@ -2,7 +2,6 @@
 import Layout from "../../layouts/Layout.astro";
 import AziendaCard from "../../components/AziendaCard.astro";
 import { getAziende, getCitta, getAmbiti } from "../../lib/data";
-import { redirectToDefaultLocale } from "astro:i18n";
 
 const url = new URL(Astro.request.url)
 const searchQuery = url.searchParams.get('q') || ''
@@ -52,7 +51,7 @@ if (!Astro.locals.admin) {
                     <div class="flex-items-center justify-between mb-6">
                         <h2 class="font-semibold text-foreground">Filtri</h2>
                         {hasFilters && (
-                            <a href="/aziende" class="text-sm text-primary hover:underline">
+                            <a href="/aziende/da_verificare" class="text-sm text-primary hover:underline">
                                 Rimuovi tutti
                             </a>
                         )}
@@ -133,7 +132,7 @@ if (!Astro.locals.admin) {
                         </div>
                         <h3 class="text-lg font-semibold text-foreground mb-2">Nessuna azienda da verificare</h3>
                         <p class="text-muted-foreground mb-4">Prova a modificare i filtri di ricerca</p>
-                        <a href="/aziende" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
+                        <a href="/aziende/da_verificare" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
                     </div>
                 )}
             </div>

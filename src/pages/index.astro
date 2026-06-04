@@ -4,16 +4,22 @@ import Layout from "../layouts/Layout.astro";
 import AziendaCard from "../components/AziendaCard.astro";
 import { immaginiAmbiti } from "../lib/immaginiAmbiti";
 
+function shuffle(array: any[]) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+}
+
 const citta = getCitta()
 const ambiti = getAmbiti()
 const aziende = getAziende()
 
-const totaleAziende = aziende.filter(a => a.da_verificare === false).length;
+const totaleAziende = aziende.length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
-const aziendeInEvidenza = aziende.filter(a => a.da_verificare === false)
-									.sort((a,b) => (b.visite || 0) - (a.visite || 0))
-									.slice(0, 3)
+const aziendeInEvidenza = shuffle([...aziende]).slice(0,3)
 const cittaInEvidenza = citta.slice(0,5)
 ---
 
@@ -130,7 +136,7 @@ const cittaInEvidenza = citta.slice(0,5)
 
 			<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 				{ambiti.map(ambito => {
-					const count = aziende.filter(a => a.da_verificare === false).filter(a => a.ambiti.includes(ambito.id)).length;
+					const count = aziende.filter(a => a.ambiti.includes(ambito.id)).length;
 					const icon = immaginiAmbiti[ambito.id]
 					return (
 						<a 

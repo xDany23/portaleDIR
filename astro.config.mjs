@@ -9,5 +9,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  base: "/portaleDIR"
+  base: "/portaleDIR",
+  trailingSlash: "always"
 });

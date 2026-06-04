@@ -197,7 +197,7 @@ const ambiti = getAmbiti()
                                 ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs">+${a.ambiti.length - 2}</span>`
                                 : "";
 
-                        const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/"
+                        const base = "/portaleDIR/"
                         const logo = a.logo_url ? `${base}${a.logo_url}` : `https://api.dicebear.com/7.x/initials/svg?seed=${a.nome}`
                         
                         return `

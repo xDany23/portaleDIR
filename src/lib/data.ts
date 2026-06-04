@@ -5,13 +5,7 @@ import type { Azienda } from './types'
 import aziende from '../data/aziende.json' with { type: "json"}
 import citta from '../data/citta.json' with { type: "json"}
 import ambiti from '../data/ambiti.json' with { type: "json"}
-import admin from '../data/admin.json' with { type: "json"}
 
-import fs from 'fs'
-import path from 'path'
-
-//percorso base dei file JSON
-const DATA_PATH = path.resolve('./src/data')
 
 // Funzioni per le città
 

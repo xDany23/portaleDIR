@@ -3,45 +3,22 @@ import Layout from "../../layouts/Layout.astro";
 import AziendaCard from "../../components/AziendaCard.astro";
 import { getAziende, getCitta, getAmbiti } from "../../lib/data";
 
-const url = new URL(Astro.request.url)
-const searchQuery = url.searchParams.get('q') || ''
-const cittaFilter = url.searchParams.getAll('citta')
-const ambitoFilter = url.searchParams.getAll('ambito')
-
-let aziendeFiltrate = getAziende()
-
-if (searchQuery) {
-    const query = searchQuery.toLowerCase()
-    aziendeFiltrate = aziendeFiltrate.filter(a => 
-        a.nome.toLowerCase().includes(query) ||
-        a.descrizione.toLowerCase().includes(query)
-    )
-}
-
-if (cittaFilter.length > 0) {
-    aziendeFiltrate = aziendeFiltrate.filter(a => cittaFilter.includes(a.id_citta))
-}
-
-if (ambitoFilter.length > 0) {
-    aziendeFiltrate = aziendeFiltrate.filter(a => 
-        a.ambiti.some(amb => ambitoFilter.includes(amb))
-    )
-}
-
-const hasFilters = searchQuery || cittaFilter.length > 0 || ambitoFilter.length > 0
-
-console.log('URL:', Astro.request.url)
-console.log('searchQuery:', searchQuery)
-console.log('cittaFilter:', cittaFilter)
-console.log('ambitoFilter:', ambitoFilter)
+const aziende = getAziende()
+const citta = getCitta()
+const ambiti = getAmbiti()
 ---
+<script is:inline define:vars={{ aziende, citta, ambiti }}>
+    window.AZIENDE = aziende;
+    window.CITTA = citta;
+    window.AMBITI = ambiti;
+</script>
 
 <Layout title="Tutte le aziende" description="Esplora tutte le aziende IT della Romagna. Filtra per citta o ambito di lavoro">
     <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-foreground mb-2">Esplora le Aziende</h1>
-            <p class="text-muted-foreground">
-                {aziendeFiltrate.length} aziende trovate {hasFilters && '(con filtri attivi)'}
+            <p id="conteggio" class="text-muted-foreground">
+                
             </p>
         </div>
 
@@ -51,11 +28,9 @@ console.log('ambitoFilter:', ambitoFilter)
                 <form method="get" class="bg-card rounded-xl border border-border p-6 sticky top-24">
                     <div class="flex-items-center justify-between mb-6">
                         <h2 class="font-semibold text-foreground">Filtri</h2>
-                        {hasFilters && (
-                            <a href="/aziende" class="text-sm text-primary hover:underline">
+                        <p id="rimuovi" class="text-sm text-primary hover:underline cursor-pointer">
                                 Rimuovi tutti
-                            </a>
-                        )}
+                        </p>
                     </div>
 
                     <!-- Ricerca -->
@@ -65,7 +40,6 @@ console.log('ambitoFilter:', ambitoFilter)
                             type="text"
                             id="search"
                             name="q"
-                            value={searchQuery}
                             placeholder="Nome azienda..."
                             class="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm"
                         >
@@ -75,14 +49,13 @@ console.log('ambitoFilter:', ambitoFilter)
                     <div class="mb-6">
                         <h3 class="text-sm font-medium text-foreground mb-3">Città</h3>
                         <div class="space-y-2 max-h-48 overflow-y-auto">
-                            {getCitta().map(c => (
+                            {citta.map(c => (
                                 <label class="flex items-center gap-2 cursor-pointer">
                                     <input 
                                         type="checkbox"
                                         name="citta"
                                         value={c.id}
-                                        checked={cittaFilter.includes(c.id)}
-                                        class="w-4 h-4 rounded border-input text-primary focus:ring-primary"
+                                        class="w-4 h-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
                                     />
                                     <span class="text-sm text-muted-foreground">{c.nome}</span>
                                 </label>
@@ -94,14 +67,13 @@ console.log('ambitoFilter:', ambitoFilter)
                     <div class="mb-6">
                         <h3 class="text-sm font-medium text-foreground mb-3">Ambito di Lavoro</h3>
                         <div class="space-y-2 max-h-48 overflow-y-auto">
-                            {getAmbiti().map(a => (
+                            {ambiti.map(a => (
                                 <label class="flex items-center gap-2 cursor-pointer">
                                     <input 
                                         type="checkbox"
                                         name="ambito"
                                         value={a.id}
-                                        checked={ambitoFilter.includes(a.id)}
-                                        class="w-4 h-4 rounded border-input text-primary focus:ring-primary"
+                                        class="w-4 h-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
                                     />
                                     {a.nome}
                                 </label>
@@ -120,14 +92,10 @@ console.log('ambitoFilter:', ambitoFilter)
 
             <!-- Aziende risultato ricerca -->
             <div class="flex-1">
-                {aziendeFiltrate.length > 0 ? (
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {aziendeFiltrate.map(a => (
-                            <AziendaCard azienda={a} />
-                        ))}
+                    <div id="risultati" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
                     </div>
-                ) : (
-                    <div class="text-center py-16">
+                    <div id="no-results" class="hidden text-center py-16">
                         <div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         </div>
@@ -135,8 +103,151 @@ console.log('ambitoFilter:', ambitoFilter)
                         <p class="text-muted-foreground mb-4">Prova a modificare i filtri di ricerca</p>
                         <a href="/aziende" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
                     </div>
-                )}
             </div>
         </div>
     </div>
 </Layout>
+
+<script type="module">
+
+    const aziende = window.AZIENDE;
+    const CITTA = window.CITTA;
+    const AMBITI = window.AMBITI;
+
+    const params = new URLSearchParams(window.location.search);
+
+    const filters = {
+        ricerca: params.get("q")?.toLowerCase() || "",
+        citta: params.getAll("citta"),
+        ambiti: params.getAll("ambito")
+    };
+
+    //ripopolo la barra di ricerca
+    const searchInput = document.getElementById('search');
+    if (searchInput && filters.ricerca) {
+        searchInput.value = filters.ricerca;
+    }
+
+    //ripopolo i checkbox delle citta
+    document.querySelectorAll('input[name="citta"]').forEach(checkbox => {
+        if (filters.citta.includes(checkbox.value)) {
+            checkbox.checked = true;
+        }
+    })
+
+    //ripopolo i checkbox degli ambiti
+    document.querySelectorAll('input[name="ambito"]').forEach(checkbox => {
+        if (filters.ambiti.includes(checkbox.value)) {
+            checkbox.checked = true;
+        }
+    })
+
+    const rimuovi = document.getElementById('rimuovi');
+
+    rimuovi.addEventListener("click", () => {
+        searchInput.value = "";
+
+        document.querySelectorAll('input[name="citta"]').forEach(checkbox => checkbox.checked = false);
+
+        document.querySelectorAll('input[name="ambito"]').forEach(checkbox => checkbox.checked = false);
+
+        render(aziende);
+    })
+
+    function slugify(nome) {
+        return nome.toLowerCase().replace(/\s+/g, '-');
+    }
+
+    function filtraAziende() {
+        return aziende.filter(a => {
+            if (filters.ricerca) {
+                const q = filters.ricerca;
+                if (
+                    !a.nome.toLowerCase().includes(q) &&
+                    !a.descrizione.toLowerCase().includes(q)
+                ) return false;
+            }
+
+            if (filters.citta.length > 0) {
+                if (!filters.citta.includes(a.id_citta)) return false;
+            }
+
+            if (filters.ambiti.length > 0) {
+                if (!a.ambiti.some(id => filters.ambiti.includes(id))) return false;
+            }
+
+            return true;
+        });
+    }
+
+    function renderCard(a) {
+        const citta = CITTA.find(c => c.id === a.id_citta)?.nome || "Romagna";
+
+        const ambiti = a.ambiti
+                        .slice(0, 2)
+                        .map(id => {
+                            const amb = AMBITI.find(x => x.id === id);
+                                return amb 
+                                    ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium">${amb.nome}</span>`
+                                    : "";
+                                })
+                                .join("");
+        
+                        const extraAmbiti = 
+                            a.ambiti.length > 2
+                                ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs">+${a.ambiti.length - 2}</span>`
+                                : "";
+                        
+                        return `
+                            <a href="/aziende/${slugify(a.nome)}" class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group">
+                            <div class="flex items-start gap-4 mb-4">
+                                <img src="${a.logo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${a.nome}`}" class="w-14 h-14 rounded-lg object-cover" />
+                                <div class="flex-1 min-w-0">
+                                <h3 class="font-semibold text-foreground group-hover:text-primary transition-colors truncate">${a.nome}</h3>
+                                <p class="text-sm text-muted-foreground flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    ${citta}
+                                </p>
+                                </div>
+                            </div>
+
+                            <p class="text-sm text-muted-foreground line-clamp-2 mb-4">${a.descrizione}</p>
+
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${ambiti}
+                                ${extraAmbiti}
+                            </div>
+
+                            <div class="flex items-center justify-between pt-4 border-t border-border">
+                                <div class="flex items-center gap-2">
+                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                                    Lavoro da remoto: ${a.lavoro_da_remoto}
+                                </span>
+                                <span class="text-xs text-muted-foreground">${a.dimensione}</span>
+                                </div>
+                            </div>
+                            </a>
+                            `;
+    }
+
+    function render(lista) {
+        const container = document.getElementById("risultati");
+        const conteggio = document.getElementById("conteggio");
+        const noResults = document.getElementById("no-results");
+
+        if (lista.length === 0) {
+            container.innerHTML = "";
+            noResults.classList.remove("hidden");
+            return;
+        }
+
+        (lista.length == 1) ? conteggio.textContent = `${lista.length} azienda trovata` : conteggio.textContent = `${lista.length} aziende trovate`;
+
+        container.innerHTML = "";
+
+        noResults.classList.add("hidden");
+        container.innerHTML = lista.map(renderCard).join("");
+    }
+
+    render(filtraAziende());
+</script>

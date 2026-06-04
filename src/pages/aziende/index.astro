@@ -80,6 +80,31 @@ const ambiti = getAmbiti()
                         </div>
                     </div>
 
+                    <!-- Tirocini e Assunzioni -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-foreground mb-3">Tirocini e Assunzioni</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input 
+                                    type="checkbox"
+                                    name="tirocinio"
+                                    value="Tirocinio"
+                                    class="w-4 h-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
+                                />
+                                Tirocinio
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input 
+                                    type="checkbox"
+                                    name="assunzione"
+                                    value="Assunzione"
+                                    class="w-4 h-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
+                                />
+                                Assume
+                            </label>
+                        </div>
+                    </div>
+
                     <button
                         type="submit"
                         class="w-full h-10 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
@@ -119,7 +144,9 @@ const ambiti = getAmbiti()
         const filters = {
             ricerca: params.get("q")?.toLowerCase() || "",
             citta: params.getAll("citta"),
-            ambiti: params.getAll("ambito")
+            ambiti: params.getAll("ambito"),
+            tirocinio: params.get("tirocinio") ? true : false,
+            assunzione: params.get("assunzione") ? true : false
         };
 
         //ripopolo la barra di ricerca
@@ -174,6 +201,14 @@ const ambiti = getAmbiti()
 
                 if (filters.ambiti.length > 0) {
                     if (!a.ambiti.some(id => filters.ambiti.includes(id))) return false;
+                }
+
+                if (filters.tirocinio === true) {
+                    if (!a.tirocini === true) return false;
+                }
+
+                if (filters.assunzione === true) {
+                    if (!a.assume === true) return false;
                 }
 
                 return true;

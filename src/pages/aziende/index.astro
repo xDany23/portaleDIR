@@ -109,147 +109,150 @@ const ambiti = getAmbiti()
 
 <script type="module">
 
-    const aziende = window.AZIENDE;
-    const CITTA = window.CITTA;
-    const AMBITI = window.AMBITI;
+    document.addEventListener("DOMContentLoaded", () => {
+        const aziende = window.AZIENDE;
+        const CITTA = window.CITTA;
+        const AMBITI = window.AMBITI;
 
-    const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search);
 
-    const filters = {
-        ricerca: params.get("q")?.toLowerCase() || "",
-        citta: params.getAll("citta"),
-        ambiti: params.getAll("ambito")
-    };
+        const filters = {
+            ricerca: params.get("q")?.toLowerCase() || "",
+            citta: params.getAll("citta"),
+            ambiti: params.getAll("ambito")
+        };
 
-    //ripopolo la barra di ricerca
-    const searchInput = document.getElementById('search');
-    if (searchInput && filters.ricerca) {
-        searchInput.value = filters.ricerca;
-    }
-
-    //ripopolo i checkbox delle citta
-    document.querySelectorAll('input[name="citta"]').forEach(checkbox => {
-        if (filters.citta.includes(checkbox.value)) {
-            checkbox.checked = true;
+        //ripopolo la barra di ricerca
+        const searchInput = document.getElementById('search');
+        if (searchInput && filters.ricerca) {
+            searchInput.value = filters.ricerca;
         }
-    })
 
-    //ripopolo i checkbox degli ambiti
-    document.querySelectorAll('input[name="ambito"]').forEach(checkbox => {
-        if (filters.ambiti.includes(checkbox.value)) {
-            checkbox.checked = true;
+        //ripopolo i checkbox delle citta
+        document.querySelectorAll('input[name="citta"]').forEach(checkbox => {
+            if (filters.citta.includes(checkbox.value)) {
+                checkbox.checked = true;
+            }
+        })
+
+        //ripopolo i checkbox degli ambiti
+        document.querySelectorAll('input[name="ambito"]').forEach(checkbox => {
+            if (filters.ambiti.includes(checkbox.value)) {
+                checkbox.checked = true;
+            }
+        })
+
+        const rimuovi = document.getElementById('rimuovi');
+
+        rimuovi.addEventListener("click", () => {
+            searchInput.value = "";
+
+            document.querySelectorAll('input[name="citta"]').forEach(checkbox => checkbox.checked = false);
+
+            document.querySelectorAll('input[name="ambito"]').forEach(checkbox => checkbox.checked = false);
+
+            render(aziende);
+        })
+
+        function slugify(nome) {
+            return nome.toLowerCase().replace(/\s+/g, '-');
         }
-    })
 
-    const rimuovi = document.getElementById('rimuovi');
+        function filtraAziende() {
+            return aziende.filter(a => {
+                if (filters.ricerca) {
+                    const q = filters.ricerca;
+                    if (
+                        !a.nome.toLowerCase().includes(q) &&
+                        !a.descrizione.toLowerCase().includes(q)
+                    ) return false;
+                }
 
-    rimuovi.addEventListener("click", () => {
-        searchInput.value = "";
+                if (filters.citta.length > 0) {
+                    if (!filters.citta.includes(a.id_citta)) return false;
+                }
 
-        document.querySelectorAll('input[name="citta"]').forEach(checkbox => checkbox.checked = false);
+                if (filters.ambiti.length > 0) {
+                    if (!a.ambiti.some(id => filters.ambiti.includes(id))) return false;
+                }
 
-        document.querySelectorAll('input[name="ambito"]').forEach(checkbox => checkbox.checked = false);
+                return true;
+            });
+        }
 
-        render(aziende);
-    })
+        function renderCard(a) {
+            const citta = CITTA.find(c => c.id === a.id_citta)?.nome || "Romagna";
 
-    function slugify(nome) {
-        return nome.toLowerCase().replace(/\s+/g, '-');
-    }
-
-    function filtraAziende() {
-        return aziende.filter(a => {
-            if (filters.ricerca) {
-                const q = filters.ricerca;
-                if (
-                    !a.nome.toLowerCase().includes(q) &&
-                    !a.descrizione.toLowerCase().includes(q)
-                ) return false;
-            }
-
-            if (filters.citta.length > 0) {
-                if (!filters.citta.includes(a.id_citta)) return false;
-            }
-
-            if (filters.ambiti.length > 0) {
-                if (!a.ambiti.some(id => filters.ambiti.includes(id))) return false;
-            }
-
-            return true;
-        });
-    }
-
-    function renderCard(a) {
-        const citta = CITTA.find(c => c.id === a.id_citta)?.nome || "Romagna";
-
-        const ambiti = a.ambiti
-                        .slice(0, 2)
-                        .map(id => {
-                            const amb = AMBITI.find(x => x.id === id);
-                                return amb 
-                                    ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium">${amb.nome}</span>`
+            const ambiti = a.ambiti
+                            .slice(0, 2)
+                            .map(id => {
+                                const amb = AMBITI.find(x => x.id === id);
+                                    return amb 
+                                        ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium">${amb.nome}</span>`
+                                        : "";
+                                    })
+                                    .join("");
+            
+                            const extraAmbiti = 
+                                a.ambiti.length > 2
+                                    ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs">+${a.ambiti.length - 2}</span>`
                                     : "";
-                                })
-                                .join("");
-        
-                        const extraAmbiti = 
-                            a.ambiti.length > 2
-                                ? `<span class="inline-flex items-center px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs">+${a.ambiti.length - 2}</span>`
-                                : "";
 
-                        const base = "/portaleDIR/"
-                        const logo = a.logo_url ? `${base}${a.logo_url}` : `https://api.dicebear.com/7.x/initials/svg?seed=${a.nome}`
-                        
-                        return `
-                            <a href="/portaleDIR/aziende/${slugify(a.nome)}/" class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group">
-                            <div class="flex items-start gap-4 mb-4">
-                                <img src="${logo}" class="w-14 h-14 rounded-lg object-cover" />
-                                <div class="flex-1 min-w-0">
-                                <h3 class="font-semibold text-foreground group-hover:text-primary transition-colors truncate">${a.nome}</h3>
-                                <p class="text-sm text-muted-foreground flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                                    ${citta}
-                                </p>
+                            const base = "/portaleDIR/"
+                            const logo = a.logo_url ? `${base}${a.logo_url}` : `https://api.dicebear.com/7.x/initials/svg?seed=${a.nome}`
+                            
+                            return `
+                                <a href="/portaleDIR/aziende/${slugify(a.nome)}/" class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <img src="${logo}" class="w-14 h-14 rounded-lg object-cover" />
+                                    <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-foreground group-hover:text-primary transition-colors truncate">${a.nome}</h3>
+                                    <p class="text-sm text-muted-foreground flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                        ${citta}
+                                    </p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <p class="text-sm text-muted-foreground line-clamp-2 mb-4">${a.descrizione}</p>
+                                <p class="text-sm text-muted-foreground line-clamp-2 mb-4">${a.descrizione}</p>
 
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                ${ambiti}
-                                ${extraAmbiti}
-                            </div>
-
-                            <div class="flex items-center justify-between pt-4 border-t border-border">
-                                <div class="flex items-center gap-2">
-                                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
-                                    Lavoro da remoto: ${a.lavoro_da_remoto}
-                                </span>
-                                <span class="text-xs text-muted-foreground">${a.dimensione}</span>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    ${ambiti}
+                                    ${extraAmbiti}
                                 </div>
-                            </div>
-                            </a>
-                            `;
-    }
 
-    function render(lista) {
-        const container = document.getElementById("risultati");
-        const conteggio = document.getElementById("conteggio");
-        const noResults = document.getElementById("no-results");
-
-        if (lista.length === 0) {
-            container.innerHTML = "";
-            noResults.classList.remove("hidden");
-            return;
+                                <div class="flex items-center justify-between pt-4 border-t border-border">
+                                    <div class="flex items-center gap-2">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                                        Lavoro da remoto: ${a.lavoro_da_remoto}
+                                    </span>
+                                    <span class="text-xs text-muted-foreground">${a.dimensione}</span>
+                                    </div>
+                                </div>
+                                </a>
+                                `;
         }
 
-        (lista.length == 1) ? conteggio.textContent = `${lista.length} azienda trovata` : conteggio.textContent = `${lista.length} aziende trovate`;
+        function render(lista) {
+            const container = document.getElementById("risultati");
+            const conteggio = document.getElementById("conteggio");
+            const noResults = document.getElementById("no-results");
 
-        container.innerHTML = "";
+            if (lista.length === 0) {
+                container.innerHTML = "";
+                noResults.classList.remove("hidden");
+                return;
+            }
 
-        noResults.classList.add("hidden");
-        container.innerHTML = lista.map(renderCard).join("");
-    }
+            (lista.length == 1) ? conteggio.textContent = `${lista.length} azienda trovata` : conteggio.textContent = `${lista.length} aziende trovate`;
 
-    render(filtraAziende());
+            container.innerHTML = "";
+
+            noResults.classList.add("hidden");
+            container.innerHTML = lista.map(renderCard).join("");
+        }
+
+        render(filtraAziende());
+    })
+    
 </script>

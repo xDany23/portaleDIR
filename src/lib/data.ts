@@ -159,7 +159,7 @@ export function aggiornaAzienda(id: string, dati: Partial<Azienda>): Azienda | u
     return aziende[index]
 }
 
-export function incrementaVisite(id: string): Azienda | undefined {
+/* export function incrementaVisite(id: string): Azienda | undefined {
     const aziende = getAziende()
     const index = aziende.findIndex(a => a.id === id)
     if (index === -1) return undefined
@@ -168,7 +168,7 @@ export function incrementaVisite(id: string): Azienda | undefined {
 
     salvaAziende(aziende)
     return aziende[index]
-}
+} */
 
 //città
 

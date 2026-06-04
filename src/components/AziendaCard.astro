@@ -8,8 +8,6 @@ interface Props {
 
 const { azienda } = Astro.props;
 const cittaObj = getCittaById(azienda.id_citta);
-
-const adminLoggato = Astro.locals.admin
 ---
 
 <a 
@@ -31,29 +29,6 @@ const adminLoggato = Astro.locals.admin
                 {cittaObj?.nome || 'Romagna'}
             </p>
         </div>
-        {adminLoggato && azienda.da_verificare === true && (
-            <span class="text-destructive">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    >
-                    <circle cx="12" cy="12" r="10" fill="currentColor" />
-                    <line
-                        x1="12"
-                        y1="7"
-                        x2="12"
-                        y2="13"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    />
-                    <circle cx="12" cy="17" r="1.5" fill="white" />
-                </svg>
-            </span>
-        )}
     </div>
 
     <p class="text-sm text-muted-foreground line-clamp-2 mb-4">
@@ -85,9 +60,5 @@ const adminLoggato = Astro.locals.admin
                 {azienda.dimensione}
             </span>
         </div>
-        <span class="text-xs text-muted-foreground flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-            {azienda.visite} {azienda.visite === 1 ? "visita" : "visite"}
-        </span>
     </div>
 </a>

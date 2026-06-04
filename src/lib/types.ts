@@ -30,7 +30,6 @@ export interface Azienda {
     id_citta: string
     ambiti: string[]
     da_verificare: boolean
-    visite: number
 }
 
 export interface Admin {

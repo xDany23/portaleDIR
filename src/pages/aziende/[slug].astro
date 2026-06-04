@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getAziende, getCittaById, getAmbitoById, slugify, getAziendaBySlug, incrementaVisite } from "../../lib/data";
+import { getAziende, getCittaById, getAmbitoById, slugify, getAziendaBySlug } from "../../lib/data";
 
 export function getStaticPaths() {
     return getAziende().map(a => ({
@@ -14,8 +14,6 @@ const azienda = getAziendaBySlug(slug)
 if (!azienda) {
     return Astro.redirect('/aziende')
 }
-
-incrementaVisite(azienda.id)
 
 const citta = getCittaById(azienda.id_citta)
 ---

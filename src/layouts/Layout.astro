@@ -13,8 +13,6 @@ interface Props {
 }
 
 const { title, description = "Scopri le aziende IT della Romagna. Trova stage e opportunità di lavoro nel settore tecnologico" } = Astro.props
-
-const adminLoggato = Astro.locals.admin
 ---
 
 <!DOCTYPE html>
@@ -28,9 +26,9 @@ const adminLoggato = Astro.locals.admin
     <title>{title} | IT Romagna</title>
 </head>
     <body class="min-h-screen flex flex-col font-sans antialiased">
-        <header class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div class="container mx-auto h-16 flex items-center justify-between md:grid md:grid-cols-3">
-                <a href="/" class="flex items-center gap-2 justify-self-start">
+                <a href="/portaleDIR/" class="flex items-center gap-2 justify-self-start">
                     <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                         <span class="text-primary-foreground font-bold text-sm">IT</span>
                     </div>
@@ -38,10 +36,10 @@ const adminLoggato = Astro.locals.admin
                 </a>
 
                 <nav class="hidden md:flex items-center gap-6 justify-self-center">
-                    <a href="/" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                    <a href="/portaleDIR/" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                         Home
                     </a>
-                    <a href="/aziende" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                    <a href="/portaleDIR/aziende/" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                         Aziende
                     </a>
                     <a href="mailto:info@portaleRomagna.it" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -64,26 +62,14 @@ const adminLoggato = Astro.locals.admin
                     </a>
                 </div> -->
                 <div class="flex h-16 items-center justify-self-end gap-3">
-                    {adminLoggato ? (
-                        <span class="text-sm font-medium text-foreground">
-                            Bentornato {adminLoggato.nome}
-                        </span>
-                        <a 
-                            href="/api/logout"
-                            class="inline-flex items-center justify-center bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm font-medium shadow hover:bg-destructive/70 transition-colors"
-                        >
-                            Logout
-                        </a>
-                    ) : (
                         <div class="flex items-center gap-3 m-0.5">
                             <a 
                                 href="/registra"
-                                class="inline-flex items-center justify-center rounded-md bg-gradient-to-l from-primary to-secondary px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
+                                class="inline-flex items-center justify-center rounded-md bg-linear-to-l from-primary to-secondary px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm font-medium text-primary-foreground shadow hover:opacity-50 transition-opacity"
                             >
                                 Registra la tua azienda
                             </a>
                         </div>
-                    )}
                 </div>
             </div>
         </header>
@@ -110,8 +96,8 @@ const adminLoggato = Astro.locals.admin
                     <div>
                         <h3 class="font-semibold mb-4">Navigazione</h3>
                         <ul class="space-y-2 text-sm text-muted-foreground">
-                            <li><a href="/" class="hover:text-foreground transition-colors">Home</a></li>
-                            <li><a href="/aziende" class="hover:text-foreground transition-colors">Esplora Aziende</a></li>
+                            <li><a href="/portaleDIR/" class="hover:text-foreground transition-colors">Home</a></li>
+                            <li><a href="/portaleDIR/aziende/" class="hover:text-foreground transition-colors">Esplora Aziende</a></li>
                             <li><a href="mailto:info@portaleRomagna.it" class="hover:text-foreground transition-colors">Contattaci</a></li>
                         </ul>
                     </div>
@@ -122,7 +108,7 @@ const adminLoggato = Astro.locals.admin
                             {cittaInEvidenza.map(c => (
                                 <li>
                                     <a 
-                                        href={`/aziende?citta=${c.id}`}
+                                        href={`/portaleDIR/aziende?citta=${c.id}/`}
                                         class="hover:text-foreground transition-colors"
                                     >
                                         {c.nome}
@@ -148,8 +134,8 @@ const adminLoggato = Astro.locals.admin
                         &copy; 2026 IT Romagna. Tutti i diritti riservati.
                     </p>
                     <div class="flex gap-4 text-sm text-muted-foreground">
-                        <a href="/privacy" class="hover:text-foreground transition-colors">Privacy Policy</a>
-                        <a href="/termini" class="hover:text-foreground transition-colors">Termini di Servizio</a>
+                        <a href="/portaleDIR/privacy" class="hover:text-foreground transition-colors">Privacy Policy</a>
+                        <a href="/portaleDIR/termini" class="hover:text-foreground transition-colors">Termini di Servizio</a>
                     </div>
                 </div>
             </div>

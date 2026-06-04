@@ -100,7 +100,7 @@ const ambiti = getAmbiti()
                         </div>
                         <h3 class="text-lg font-semibold text-foreground mb-2">Nessuna azienda trovata</h3>
                         <p class="text-muted-foreground mb-4">Prova a modificare i filtri di ricerca</p>
-                        <a href="/aziende/" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
+                        <a href="/portaleDIR/aziende/" class="text-primary hover:underline">Rimuovi tutti i filtri</a>
                     </div>
             </div>
         </div>
@@ -198,7 +198,7 @@ const ambiti = getAmbiti()
                                 : "";
                         
                         return `
-                            <a href="/aziende/${slugify(a.nome)}/" class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group">
+                            <a href="/portaleDIR/aziende/${slugify(a.nome)}/" class="block bg-card rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all group">
                             <div class="flex items-start gap-4 mb-4">
                                 <img src="${a.logo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${a.nome}`}" class="w-14 h-14 rounded-lg object-cover" />
                                 <div class="flex-1 min-w-0">

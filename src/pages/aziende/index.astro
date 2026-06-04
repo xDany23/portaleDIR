@@ -169,6 +169,18 @@ const ambiti = getAmbiti()
             }
         })
 
+        //ripopolo il checkbox del tirocinio
+        const tir = document.querySelector('input[name="tirocinio"]');
+        if (tir && filters.tirocinio) {
+            tir.checked = true;
+        }
+
+        //ripopolo il checkbox delle assunzioni
+        const ass = document.querySelector('input[name="assunzione"]');
+        if (ass && filters.assunzione) {
+            ass.checked = true;
+        }
+
         const rimuovi = document.getElementById('rimuovi');
 
         rimuovi.addEventListener("click", () => {

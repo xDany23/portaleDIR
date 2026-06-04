@@ -1,0 +1,121 @@
+name: Registrazione nuova azienda
+description: Compila questo modulo per aggiungere una nuova azienda al portale IT Romagna
+title: "Nuova azienda: "
+labels: ["registrazione-azienda"]
+
+body:
+  - type: input
+    id: nome
+    attributes:
+      label: Nome azienda
+      placeholder: Es. Azienda Esempio SRL
+    validations:
+      required: true
+
+  - type: textarea
+    id: descrizione
+    attributes:
+      label: Descrizione
+      placeholder: Breve descrizione dell'azienda
+    validations:
+      required: true
+
+  - type: input
+    id: email
+    attributes:
+      label: Email di contatto
+      placeholder: azienda@esempio.com
+    validations:
+      required: true
+
+  - type: input
+    id: telefono
+    attributes:
+      label: Telefono
+      placeholder: 3331234567
+
+  - type: input
+    id: sito
+    attributes:
+      label: Sito web
+      placeholder: https://www.esempio.it
+
+  - type: dropdown
+    id: citta
+    attributes:
+      label: Città
+      options:
+        - Forlì
+        - Cesena
+        - Rimini
+        - Ravenna
+        - Faenza
+        - Lugo
+        - Imola
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ambiti
+    attributes:
+      label: Ambiti di lavoro
+      description: Seleziona uno o più ambiti
+      multiple: true
+      options:
+        - Software Development
+        - Artificial Intelligence & Data
+        - Cybersecurity
+        - Cloud Computing & DevOps
+        - IT Infrastructure & Networking
+        - Managed Services & IT Support
+        - Digital Platforms & Web Solutions
+        - AR/VR, Multimedia & Creative Tech
+        - UI/UX & Digital Experience
+        - IoT & Embedded Systems
+        - Business Software & Enterprise Solutions
+        - IT Consulting & Digital Transformation
+    validations:
+      required: true
+
+  - type: dropdown
+    id: remoto
+    attributes:
+      label: Lavoro da remoto
+      options:
+        - Presenza
+        - Ibrido
+        - Remoto
+
+  - type: dropdown
+    id: dimensione
+    attributes:
+      label: Dimensione azienda
+      options:
+        - Startup
+        - Piccola Azienda
+        - Media Azienda
+        - Grande Azienda
+    validations:
+      required: true
+
+  - type: dropdown
+    id: assume
+    attributes:
+      label: Assume personale
+      options:
+        - Sì
+        - No
+
+  - type: dropdown
+    id: tirocini
+    attributes:
+      label: Offre tirocini
+      options:
+        - Sì
+        - No
+
+  - type: textarea
+    id: logo
+    attributes:
+      label: URL del logo (opzionale)
+      placeholder: https://...

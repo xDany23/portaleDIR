@@ -1,11 +1,11 @@
-import type { Admin, Citta } from './types'
+import type { Admin, Citta, Dimensione, Remoto } from './types'
 import type { Ambito } from './types'
 import type { Azienda } from './types'
 
-import aziende from '../data/aziende.json'
-import citta from '../data/citta.json'
-import ambiti from '../data/ambiti.json'
-import admin from '../data/admin.json'
+import aziende from '../data/aziende.json' with { type: "json"}
+import citta from '../data/citta.json' with { type: "json"}
+import ambiti from '../data/ambiti.json' with { type: "json"}
+import admin from '../data/admin.json' with { type: "json"}
 
 import fs from 'fs'
 import path from 'path'
@@ -50,9 +50,17 @@ export function getAziendaByCitta(idCitta: string): Azienda[] {
 
 //funzione per URL-friendly, fa sì che venga preso il nome dell'azienda tutto in minuscolo da mettere tipo nell'indirizzo web della pagina
 export function getAziendaBySlug(slug: string): Azienda | undefined {
-    return aziende.find(
+    const azienda = aziende.find(
         a => a.nome.toLowerCase().replace(/\s+/g, '-') === slug
     )
+
+    if (!azienda) return undefined
+
+    return {
+        ...azienda,
+        dimensione: azienda.dimensione as Dimensione,
+        lavoro_da_remoto: azienda.lavoro_da_remoto as Remoto
+    }
 }
 
 export function getAziendeByFilters(filters: {

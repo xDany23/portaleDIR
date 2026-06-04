@@ -2,7 +2,7 @@ name: Aggiungi azienda da Issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   convert:
@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Estrai dati dall'issue
         id: estrai

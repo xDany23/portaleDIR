@@ -1,6 +1,7 @@
 name: Registrazione nuova azienda
 description: Compila questo modulo per aggiungere una nuova azienda al portale IT Romagna
-title: "Nuova azienda: "
+title: "Nuova azienda"
+title_editable: false
 labels: ["registrazione-azienda"]
 
 body:
@@ -82,9 +83,9 @@ body:
     attributes:
       label: Lavoro da remoto
       options:
-        - Presenza
+        - Si
         - Ibrido
-        - Remoto
+        - No
 
   - type: dropdown
     id: dimensione

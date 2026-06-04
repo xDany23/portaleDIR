@@ -118,4 +118,4 @@ body:
     id: logo
     attributes:
       label: URL del logo (opzionale)
-      placeholder: https://...
+      placeholder: https://esempio.com/logo.png

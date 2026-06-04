@@ -29,6 +29,8 @@ export interface Azienda {
     longitudine: number
     id_citta: string
     ambiti: string[]
+    assume: boolean
+    tirocini: boolean
 }
 
 export interface Admin {

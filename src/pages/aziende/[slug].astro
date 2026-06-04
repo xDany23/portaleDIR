@@ -39,7 +39,7 @@ const logo = azienda.logo_url ? `${base}${azienda.logo_url}` : `https://api.dice
                 <div class="bg-card rounded-xl border border-border p-8">
                     <div class="flex flex-col sm:flex-row items-start gap-6 relative">
                         <img 
-                            src={logo || `https://api.dicebear.com/7.x/initials/svg?seed=${azienda.nome}`} 
+                            src={logo} 
                             alt={`Logo ${azienda.nome}`}
                             class="w-24 h-24 rounded-xl object-cover"
                         />

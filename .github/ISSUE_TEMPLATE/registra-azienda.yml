@@ -8,7 +8,7 @@ body:
     id: nome
     attributes:
       label: Nome azienda
-      placeholder: Es. Azienda Esempio SRL
+      placeholder: "Es. Azienda Esempio SRL"
     validations:
       required: true
 
@@ -16,7 +16,7 @@ body:
     id: descrizione
     attributes:
       label: Descrizione
-      placeholder: Breve descrizione dell'azienda
+      placeholder: "Breve descrizione dell'azienda"
     validations:
       required: true
 
@@ -24,7 +24,7 @@ body:
     id: email
     attributes:
       label: Email di contatto
-      placeholder: azienda@esempio.com
+      placeholder: "azienda@esempio.com"
     validations:
       required: true
 
@@ -32,13 +32,13 @@ body:
     id: telefono
     attributes:
       label: Telefono
-      placeholder: 3331234567
+      placeholder: "3331234567"
 
   - type: input
     id: sito
     attributes:
       label: Sito web
-      placeholder: https://www.esempio.it
+      placeholder: "https://www.esempio.it"
 
   - type: dropdown
     id: citta
@@ -118,4 +118,4 @@ body:
     id: logo
     attributes:
       label: URL del logo (opzionale)
-      placeholder: https://esempio.com/logo.png
+      placeholder: "https://esempio.com/logo.png"

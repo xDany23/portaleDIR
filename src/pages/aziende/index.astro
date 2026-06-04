@@ -190,6 +190,10 @@ const ambiti = getAmbiti()
 
             document.querySelectorAll('input[name="ambito"]').forEach(checkbox => checkbox.checked = false);
 
+            document.querySelector('input[name="tirocinio"]').checked = false;
+
+            document.querySelector('input[name="assunzione"]').checked = false;
+
             render(aziende);
         })
 

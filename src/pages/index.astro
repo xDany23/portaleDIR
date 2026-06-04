@@ -40,7 +40,7 @@ const cittaInEvidenza = citta.slice(0,5)
 				</p>
 
 				<!-- Search Bar -->
-				<form action="/aziende" method="get" class="max-w-2xl mx-auto">
+				<form action="/aziende/" method="get" class="max-w-2xl mx-auto">
 					<div class="flex gap-2">
 						<input 
 							type="text" 
@@ -64,7 +64,7 @@ const cittaInEvidenza = citta.slice(0,5)
 					</span>
 					{cittaInEvidenza.map(c => (
 						<a 
-							href={`/aziende?citta=${c.id}`}
+							href={`/aziende?citta=${c.id}/`}
 							class="inline-flex items-center px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground hover:bg-primary/20 hover:text-foreground transition-colors"
 						>
 							{c.nome}
@@ -109,7 +109,7 @@ const cittaInEvidenza = citta.slice(0,5)
 					<p class="text-muted-foreground">Le aziende piu visitate del portale</p>
 				</div>
 				<a 
-					href="/aziende"
+					href="/aziende/"
 					class="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
 				>
 					Vedi tutte le aziende
@@ -140,7 +140,7 @@ const cittaInEvidenza = citta.slice(0,5)
 					const icon = immaginiAmbiti[ambito.id]
 					return (
 						<a 
-							href={`/aziende?ambito=${ambito.id}`}
+							href={`/aziende?ambito=${ambito.id}/`}
 							class="flex flex-col items-center p-6 bg-card rounded-xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group"
 						>
 							<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">

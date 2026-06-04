@@ -10,5 +10,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   base: "/portaleDIR",
-  trailingSlash: "always"
+  trailingSlash: "never"
 });

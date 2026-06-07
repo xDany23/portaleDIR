@@ -10,6 +10,7 @@ const body = process.env.ISSUE_BODY || "";
 
 // Funzione per estrarre il valore di un campo dal corpo dell'issue
 function estrai(campo) {
+    const campoEscaped = campo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const regex = new RegExp(`### ${campo}\\s*\\n([\\s\\S]*?)(?=\\n###|$)`);
     const match = body.match(regex);
     return match ? match[1].trim() : "";

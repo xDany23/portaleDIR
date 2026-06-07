@@ -1,6 +1,6 @@
 name: Registrazione nuova azienda
 description: Compila questo modulo per aggiungere una nuova azienda al portale IT Romagna
-title: "Nuova azienda {{ nome }}"
+title: "Nuova azienda"
 labels: ["registrazione-azienda"]
 
 body:

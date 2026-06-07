@@ -13,7 +13,8 @@ function estrai(campo) {
     const campoEscaped = campo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const regex = new RegExp(`### ${campoEscaped}\\s*\\n([\\s\\S]*?)(?=\\n###|$)`);
     const match = body.match(regex);
-    return match ? match[1].trim() : "";
+    const valore = match ? match[1].trim() : "";
+    return valore === "_No response_" ? "" : valore;
 }
 
 const mappaAmbiti = {
@@ -43,8 +44,9 @@ const mappaCitta = {
 
 //Estraggo i campi dal corpo dell'issue
 const ambitiRaw = estrai("Ambiti di lavoro");
+console.log("Ambiti Raw:", JSON.stringify(ambitiRaw));
 const ambitiArray = ambitiRaw
-    .split("\n")
+    .split(",")
     .map(a => a.replace(/^-\s*/, "").trim())
     .filter(a => mappaAmbiti[a])
     .map(a => mappaAmbiti[a]);

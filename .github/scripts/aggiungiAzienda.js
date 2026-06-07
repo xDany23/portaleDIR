@@ -44,12 +44,9 @@ const mappaCitta = {
 
 //Estraggo i campi dal corpo dell'issue
 const ambitiRaw = estrai("Ambiti di lavoro");
-console.log("Ambiti Raw:", JSON.stringify(ambitiRaw));
-const ambitiArray = ambitiRaw
-    .split(",")
-    .map(a => a.replace(/^-\s*/, "").trim())
-    .filter(a => mappaAmbiti[a])
-    .map(a => mappaAmbiti[a]);
+const ambitiArray = Object.keys(mappaAmbiti)
+    .filter(nome => ambitiRaw.includes(nome))
+    .map(nome => mappaAmbiti[nome])
 
 const cittaRaw = estrai("Città");
 const cittaId = mappaCitta[cittaRaw] || "1";

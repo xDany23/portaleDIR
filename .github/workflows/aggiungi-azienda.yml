@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   convert:
+    if: contains(github.event.issue.labels.*.name, 'registrazione-azienda')
     runs-on: ubuntu-latest
 
     steps:
@@ -21,20 +22,17 @@ jobs:
         with:
           node-version: 18
 
-      - name: Estrai dati dall'issue
-        id: estrai
-        uses: peter-evans/issue-forms-parser@v1
-        with:
-          issue-number: ${{ github.event.issue.number }}
-
       - name: Aggiungi azienda al JSON
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          node .github/scripts/aggiungiAzienda.js '${{ steps.estrai.outputs.json }}'
+          node .github/scripts/aggiungiAzienda.js
 
       - name: Crea Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
-          title: "Nuova azienda: ${{ steps.estrai.outputs.nome }}"
-          body: "Aggiunta automatica da Issue #${{ github.event.issue.number }}"
-          commit-message: "Aggiunta nuova azienda"
-          branch: "azienda-${{ github.event.issue.number }}"
+            title: "Nuova azienda da Issue #${{ github.event.issue.number }}"
+            body: "Aggiunta automatica da Issue #${{ github.event.issue.number }}"
+            commit-message: "Agiunta nuova azienda da issue #${{ github.event.issue.number }} "
+            branch: "azienda-${{ github.event.issue.number }}"

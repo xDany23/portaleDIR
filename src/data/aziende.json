@@ -112,5 +112,25 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1780865691855",
+    "nome": "PROVA",
+    "descrizione": "prova",
+    "email_contatto": "prova@cacca.it",
+    "telefono": "3338827024",
+    "sito_web": "",
+    "dimensione": "media azienda",
+    "lavoro_da_remoto": "ibrido",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "6",
+    "ambiti": [
+      "5"
+    ],
+    "assume": true,
+    "tirocini": true
   }
 ]

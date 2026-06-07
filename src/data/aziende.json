@@ -112,5 +112,27 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1780866061004",
+    "nome": "Prova",
+    "descrizione": "prova",
+    "email_contatto": "prova@caccona.it",
+    "telefono": "3338827025",
+    "sito_web": "",
+    "dimensione": "media azienda",
+    "lavoro_da_remoto": "ibrido",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "5",
+    "ambiti": [
+      "3",
+      "6",
+      "8"
+    ],
+    "assume": true,
+    "tirocini": true
   }
 ]

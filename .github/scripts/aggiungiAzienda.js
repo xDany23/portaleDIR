@@ -11,7 +11,7 @@ const body = process.env.ISSUE_BODY || "";
 // Funzione per estrarre il valore di un campo dal corpo dell'issue
 function estrai(campo) {
     const campoEscaped = campo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const regex = new RegExp(`### ${campo}\\s*\\n([\\s\\S]*?)(?=\\n###|$)`);
+    const regex = new RegExp(`### ${campoEscaped}\\s*\\n([\\s\\S]*?)(?=\\n###|$)`);
     const match = body.match(regex);
     return match ? match[1].trim() : "";
 }
@@ -61,8 +61,8 @@ const nuovaAzienda = {
     sito_web: estrai("Sito web") || "",
     dimensione: estrai("Dimensione azienda").toLowerCase(),
     lavoro_da_remoto: estrai("Lavoro da remoto").toLowerCase(),
-    logo_url: estrai("URL del logo (opzionale") || "",
-    anno_fondazione: new Date().getFullYear,
+    logo_url: estrai("URL del logo (opzionale)") || "",
+    anno_fondazione: new Date().getFullYear(),
     latitudine: 0,
     longitudine: 0,
     id_citta: cittaId,

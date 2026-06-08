@@ -171,5 +171,25 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1780940610354",
+    "nome": "FIORENTINI",
+    "descrizione": "Azienda Fiorentini per Intelligenza Artificiale",
+    "email_contatto": "Fiorentini@info.com",
+    "telefono": "374836273",
+    "sito_web": "",
+    "dimensione": "Piccola Azienda",
+    "lavoro_da_remoto": "Ibrido",
+    "logo_url": "loghi/1780940610354-fiorentini.png",
+    "anno_fondazione": "08/06/2026",
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "5",
+    "ambiti": [
+      "2"
+    ],
+    "assume": false,
+    "tirocini": true
   }
 ]

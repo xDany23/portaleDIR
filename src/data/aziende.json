@@ -171,5 +171,25 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1780938597891",
+    "nome": "Pompignoli Design Solutions",
+    "descrizione": "Azienda che si occupa di personalizzazioni Design moderne su commissione",
+    "email_contatto": "Pompignoli@info.com",
+    "telefono": "374836273",
+    "sito_web": "",
+    "dimensione": "Media Azienda",
+    "lavoro_da_remoto": "Sì",
+    "logo_url": "<img width=\"4160\" height=\"3120\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/04efd14c-86b0-465f-9b8f-cead124f9361\" />",
+    "anno_fondazione": "08/06/2026",
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "3",
+    "ambiti": [
+      "7"
+    ],
+    "assume": true,
+    "tirocini": false
   }
 ]

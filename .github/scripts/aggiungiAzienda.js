@@ -17,6 +17,14 @@ function estrai(campo) {
     return valore === "_No response_" ? "" : valore;
 }
 
+function pulisciNomeFile(stringa) {
+    return stringa
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+}
+
 const mappaAmbiti = {
     "Software Development" : "1",
     "Artificial Intelligence & Data": "2",
@@ -42,37 +50,89 @@ const mappaCitta = {
     "Imola": "7"
 }
 
-//Estraggo i campi dal corpo dell'issue
-const ambitiRaw = estrai("Ambiti di lavoro");
-const ambitiArray = Object.keys(mappaAmbiti)
-    .filter(nome => ambitiRaw.includes(nome))
-    .map(nome => mappaAmbiti[nome])
+async function eseguiScript() {
+    //Estraggo i campi dal corpo dell'issue
+    const ambitiRaw = estrai("Ambiti di lavoro");
+    const ambitiArray = Object.keys(mappaAmbiti)
+        .filter(nome => ambitiRaw.includes(nome))
+        .map(nome => mappaAmbiti[nome])
 
-const cittaRaw = estrai("Città");
-const cittaId = mappaCitta[cittaRaw] || "1";
+    const cittaRaw = estrai("Città");
+    const cittaId = mappaCitta[cittaRaw] || "1";
 
-const nuovaAzienda = {
-    id: String(Date.now()),
-    nome: estrai("Nome azienda"),
-    descrizione: estrai("Descrizione"),
-    email_contatto: estrai("Email di contatto"),
-    telefono: estrai("Telefono") || "",
-    sito_web: estrai("Sito web") || "",
-    dimensione: estrai("Dimensione azienda"),
-    lavoro_da_remoto: estrai("Lavoro da remoto"),
-    logo_url: estrai("URL del logo (opzionale)") || "",
-    anno_fondazione: new Date().toLocaleDateString('it-IT'),
-    latitudine: 0,
-    longitudine: 0,
-    id_citta: cittaId,
-    ambiti: ambitiArray,
-    assume: estrai("Assume personale") === "Sì",
-    tirocini: estrai("Offre tirocini") === "Sì"
-};
+    const nomeAzienda = estrai("Nome azienda");
+    const idAzienda = String(Date.now());
 
-const filePath = path.join(process.cwd(), "src/data/aziende.json");
-const aziende = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    let logoUrlFinale = "";
+    let logoRaw = estrai("URL del logo (opzionale)") || "";
+    let remoteUrl = "";
 
-aziende.push(nuovaAzienda);
+    if (logoRaw.includes("<img")) {
+        const srcMatch = logoRaw.match(/src=["']([^"']+)["']/);
+        if (srcMatch && srcMatch[1]) {
+            remoteUrl = srcMatch[1];
+        }
+    } else if (logoRaw.startsWith("https://") || logoRaw.startsWith("https://")) {
+        remoteUrl = logoRaw.trim();
+    }
 
-fs.writeFileSync(filePath, JSON.stringify(aziende, null, 2));
+    if (remoteUrl) {
+        try {
+            const cartellaLoghi = path.join(process.cwd(), "public/loghi");
+
+            if (!fs.existsSync(cartellaLoghi)) {
+                fs.mkdirSync(cartellaLoghi, { recursive: true });
+            }
+
+            const matchEstensione = remoteUrl.match(/\.(png|jpg|jpeg|webp|gif|svg)(\?.*)?$/i);
+            const estensione = matchEstensione ? `.${matchEstensione[1].toLowerCase()}` : ".png";
+
+            const nomeFileInLocale = `${idAzienda}-${pulisciNomeFile(nomeAzienda)}${estensione}`;
+            const pathLocaleCompleto = path.join(cartellaLoghi, nomeFileInLocale);
+
+            const response = await fetch(remoteUrl)
+            if (!response.ok) throw new Error(`Errore nel download: ${response.statusText}`)
+
+            const arrayBuffer = await response.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+
+            fs.writeFileSync(pathLocaleCompleto, buffer);
+
+            logoUrlFinale = `loghi/${nomeFileInLocale}`;
+        } catch (error) {
+            logoUrlFinale = "";
+        }
+    }
+
+    const nuovaAzienda = {
+        id: idAzienda,
+        nome: nomeAzienda,
+        descrizione: estrai("Descrizione"),
+        email_contatto: estrai("Email di contatto"),
+        telefono: estrai("Telefono") || "",
+        sito_web: estrai("Sito web") || "",
+        dimensione: estrai("Dimensione azienda"),
+        lavoro_da_remoto: estrai("Lavoro da remoto"),
+        logo_url: logoUrlFinale,
+        anno_fondazione: new Date().toLocaleDateString('it-IT'),
+        latitudine: 0,
+        longitudine: 0,
+        id_citta: cittaId,
+        ambiti: ambitiArray,
+        assume: estrai("Assume personale") === "Sì",
+        tirocini: estrai("Offre tirocini") === "Sì"
+    };
+
+    const filePath = path.join(process.cwd(), "src/data/aziende.json");
+    const aziende = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+    aziende.push(nuovaAzienda);
+
+    fs.writeFileSync(filePath, JSON.stringify(aziende, null, 2));
+}
+
+eseguiScript().catch(error => {
+    console.error("Errore fatale nello script: ", error);
+    process.exit(1);
+})
+

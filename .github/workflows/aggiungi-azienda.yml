@@ -15,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Aggiungi azienda al JSON
         env:
@@ -36,3 +36,6 @@ jobs:
             body: "Aggiunta automatica da Issue #${{ github.event.issue.number }}"
             commit-message: "Agiunta nuova azienda da issue #${{ github.event.issue.number }} "
             branch: "azienda-${{ github.event.issue.number }}"
+            add-paths: |
+              src/data/aziende.json
+              public/loghi/**

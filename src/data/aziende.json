@@ -156,5 +156,25 @@
     ],
     "assume": true,
     "tirocini": false
+  },
+  {
+    "id": "1780934721675",
+    "nome": "Capacci Company Tech",
+    "descrizione": "Azienda Capacci da anni nel mondo del lavoro",
+    "email_contatto": "Capacci@info.com",
+    "telefono": "3847389209",
+    "sito_web": "",
+    "dimensione": "Grande Azienda",
+    "lavoro_da_remoto": "Ibrido",
+    "logo_url": "",
+    "anno_fondazione": "08/06/2026",
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "1",
+    "ambiti": [
+      "9"
+    ],
+    "assume": false,
+    "tirocini": true
   }
 ]

@@ -85,8 +85,9 @@ body:
         - No
         - Ibrido
         - Sì
-      validations:
-        required: true
+      default: 0
+    validations:
+      required: true
 
   - type: dropdown
     id: dimensione
@@ -107,8 +108,9 @@ body:
       options:
         - No
         - Sì
-      validations:
-        required: true
+      default: 0
+    validations:
+      required: true
 
   - type: dropdown
     id: tirocini
@@ -117,8 +119,8 @@ body:
       options:
         - No
         - Sì
-      validations:
-        required: true
+    validations:
+      required: true
 
   - type: textarea
     id: logo

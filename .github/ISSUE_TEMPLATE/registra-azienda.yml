@@ -85,7 +85,9 @@ body:
         - No
         - Ibrido
         - Sì
-      default: "No"
+      default: 0
+      validations:
+        required: true
 
   - type: dropdown
     id: dimensione
@@ -106,7 +108,9 @@ body:
       options:
         - No
         - Sì
-      default: "No"
+      default: 0
+      validations:
+        required: true
 
   - type: dropdown
     id: tirocini
@@ -115,10 +119,12 @@ body:
       options:
         - No
         - Sì
-      default: "No"
+      default: 0
+      validations:
+        required: true
 
   - type: textarea
     id: logo
     attributes:
       label: URL del logo (opzionale)
-      placeholder: "https://esempio.com/logo.png"
+      placeholder: "logo.png"

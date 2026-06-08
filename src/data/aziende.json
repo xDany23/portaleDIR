@@ -171,5 +171,25 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1780938472558",
+    "nome": "Pompignoli Design Web",
+    "descrizione": "Azienda che si occupa di Design moderno su commissione",
+    "email_contatto": "Pompignoli@info.com",
+    "telefono": "3938473627",
+    "sito_web": "",
+    "dimensione": "Media Azienda",
+    "lavoro_da_remoto": "Sì",
+    "logo_url": "",
+    "anno_fondazione": "08/06/2026",
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "6",
+    "ambiti": [
+      "7"
+    ],
+    "assume": true,
+    "tirocini": false
   }
 ]

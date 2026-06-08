@@ -1,4 +1,4 @@
-import type { Admin, Citta, Dimensione, Remoto } from './types'
+import type { Citta } from './types'
 import type { Ambito } from './types'
 import type { Azienda } from './types'
 
@@ -15,6 +15,10 @@ export function getCitta(): Citta[] {
 
 export function getCittaById(id: string): Citta | undefined {
     return citta.find(c => c.id === id) as Citta | undefined
+}
+
+export function getHowManyCompany(idCitta: string): number {
+    return getAziendaByCitta(idCitta).length
 }
 
 
@@ -52,8 +56,8 @@ export function getAziendaBySlug(slug: string): Azienda | undefined {
 
     return {
         ...azienda,
-        dimensione: azienda.dimensione as Dimensione,
-        lavoro_da_remoto: azienda.lavoro_da_remoto as Remoto
+        dimensione: azienda.dimensione as string,
+        lavoro_da_remoto: azienda.lavoro_da_remoto as string
     }
 }
 

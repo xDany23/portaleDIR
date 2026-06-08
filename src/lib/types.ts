@@ -1,8 +1,5 @@
 // Tipi di dati
 
-export type Remoto = "Sì" | "No" | "Ibrido"
-export type Dimensione = "Startup" | "PMI" | "Grande Azienda"
-
 export interface Citta {
     id: string;
     nome: string
@@ -17,12 +14,11 @@ export interface Azienda {
     id: string
     nome: string
     descrizione: string
-    lavoro_da_remoto: Remoto
+    lavoro_da_remoto: string
     sito_web: string
     email_contatto: string
-    password_hash: string
     telefono: string
-    dimensione: Dimensione
+    dimensione: string
     logo_url: string
     anno_fondazione: string
     latitudine: number

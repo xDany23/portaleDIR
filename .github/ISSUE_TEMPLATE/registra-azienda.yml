@@ -85,7 +85,6 @@ body:
         - No
         - Ibrido
         - Sì
-      default: 0
       validations:
         required: true
 
@@ -108,7 +107,6 @@ body:
       options:
         - No
         - Sì
-      default: 0
       validations:
         required: true
 
@@ -119,7 +117,6 @@ body:
       options:
         - No
         - Sì
-      default: 0
       validations:
         required: true
 

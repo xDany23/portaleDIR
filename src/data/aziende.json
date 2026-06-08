@@ -134,5 +134,26 @@
     ],
     "assume": true,
     "tirocini": true
+  },
+  {
+    "id": "1780932830035",
+    "nome": "Assirel Tech Com",
+    "descrizione": "provazza",
+    "email_contatto": "Assirelli@gmail.com",
+    "telefono": "3338827025",
+    "sito_web": "",
+    "dimensione": "startup",
+    "lavoro_da_remoto": "",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "5",
+    "ambiti": [
+      "5",
+      "8"
+    ],
+    "assume": false,
+    "tirocini": false
   }
 ]

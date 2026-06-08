@@ -82,9 +82,10 @@ body:
     attributes:
       label: Lavoro da remoto
       options:
-        - Si
-        - Ibrido
         - No
+        - Ibrido
+        - Sì
+      default: 0
 
   - type: dropdown
     id: dimensione
@@ -103,16 +104,18 @@ body:
     attributes:
       label: Assume personale
       options:
-        - Sì
         - No
+        - Sì
+      default: 0
 
   - type: dropdown
     id: tirocini
     attributes:
       label: Offre tirocini
       options:
-        - Sì
         - No
+        - Sì
+      default: 0
 
   - type: textarea
     id: logo

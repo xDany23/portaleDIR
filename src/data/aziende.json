@@ -134,5 +134,27 @@
     ],
     "assume": true,
     "tirocini": true
+  },
+  {
+    "id": "1780934101099",
+    "nome": "Assirelli Tech Comp",
+    "descrizione": "Azienda Assirelli all family",
+    "email_contatto": "Assirelli@gmail.com",
+    "telefono": "3338826024",
+    "sito_web": "",
+    "dimensione": "piccola azienda",
+    "lavoro_da_remoto": "no",
+    "logo_url": "",
+    "anno_fondazione": 2026,
+    "latitudine": 0,
+    "longitudine": 0,
+    "id_citta": "5",
+    "ambiti": [
+      "1",
+      "5",
+      "8"
+    ],
+    "assume": true,
+    "tirocini": false
   }
 ]

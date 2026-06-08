@@ -20,8 +20,8 @@ const totaleAziende = aziende.length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
 const aziendeInEvidenza = shuffle([...aziende]).slice(0,3)
-const cittaInEvidenza = citta
-	.sort((a,b) => getHowManyCompany(a.id) - getHowManyCompany(b.id))
+const cittaInEvidenza = [...citta]
+	.sort((a,b) => getHowManyCompany(b.id) - getHowManyCompany(a.id))
 	.slice(0,5)
 	.sort((a,b) => a.nome.localeCompare(b.nome))
 ---

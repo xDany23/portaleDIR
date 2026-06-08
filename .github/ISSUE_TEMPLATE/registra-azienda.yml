@@ -82,7 +82,7 @@ body:
     attributes:
       label: Lavoro da remoto
       options:
-        - No
+        - "No"
         - Ibrido
         - Sì
       default: 0
@@ -106,7 +106,7 @@ body:
     attributes:
       label: Assume personale
       options:
-        - No
+        - "No"
         - Sì
       default: 0
     validations:
@@ -117,7 +117,7 @@ body:
     attributes:
       label: Offre tirocini
       options:
-        - No
+        - "No"
         - Sì
     validations:
       required: true

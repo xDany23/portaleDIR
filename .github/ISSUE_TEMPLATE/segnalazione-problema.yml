@@ -26,6 +26,14 @@ body:
   - type: textarea
     id: descrizione
     attributes:
+      label: Descrizione del problema
+      placeholder: "Descrivi il problema nel dettaglio..."
+    validations:
+      required: true
+  
+  - type: input
+    id: email
+    attributes:
       label: Email (opzionale)
       description: Se vuoi essere ricontattato
       placeholder: "tua@email.it"

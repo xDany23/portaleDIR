@@ -142,7 +142,7 @@ const ambiti = getAmbiti()
         const params = new URLSearchParams(window.location.search);
 
         const filters = {
-            ricerca: params.get("q")?.toLowerCase() || "",
+            ricerca: params.get("q") || "",
             citta: params.getAll("citta"),
             ambiti: params.getAll("ambito"),
             tirocinio: params.get("tirocinio") ? true : false,

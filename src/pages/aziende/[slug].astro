@@ -134,7 +134,7 @@ const logo = azienda.logo_url ? `${base}${azienda.logo_url}` : `https://api.dice
                         Hai notato informazioni errate o contenuti inappropriati?
                     </p>
                     <a 
-                        href={`/contatti?azienda=${azienda.nome}`}
+                        href={`https://github.com/xDany23/portaleDIR/issues/new?template=segnalazione-problema.yml&labels=segnalazione&title=Segnalazione: ${encodeURIComponent(azienda.nome)}`}
                         class="text-sm text-primary hover:underline flex items-center gap-1"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>

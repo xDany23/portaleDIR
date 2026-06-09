@@ -1,0 +1,31 @@
+name: Segnala un problema
+description: Segnala informazioni errate o un problema sul portale
+title: "Segnalazione problema"
+labels: ["segnalazione"]
+
+body:
+  - type: input
+    id: azienda
+    attributes:
+      label: Azienda coinvolta
+      placeholder: "Es. TechBase Srl (lascia vuoto se non riguarda un'azienda specifica)"
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo di problema
+      options:
+        - Informazioni errate
+        - Azienda inesistente
+        - Contenuto inappropriato
+        - Problema tecnico
+        - Altro
+    validations:
+      required: true
+
+  - type: textarea
+    id: descrizione
+    attributes:
+      label: Email (opzionale)
+      description: Se vuoi essere ricontattato
+      placeholder: "tua@email.it"

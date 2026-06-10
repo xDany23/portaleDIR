@@ -114,7 +114,11 @@ body:
       options:
         - "No"
         - Ibrido
-        - Sì
+        - Full Remote
+        - Remote-first
+        - Remote-friendly
+        - Flessibile
+        - Da concordare
       default: 0
     validations:
       required: true
@@ -125,9 +129,12 @@ body:
       label: Dimensione azienda
       options:
         - Startup
-        - Piccola Azienda
-        - Media Azienda
-        - Grande Azienda
+        - Scale-up
+        - Micro impresa
+        - Piccola impresa
+        - Media impresa
+        - Grande impresa
+        - Enterprise
     validations:
       required: true
 

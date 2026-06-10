@@ -45,13 +45,32 @@ const mappaAmbiti = {
 }
 
 const mappaCitta = {
-    "Forlì": "1",
-    "Cesena": "2",
-    "Ravenna": "3",
-    "Rimini": "4",
-    "Faenza": "5",
-    "Lugo": "6",
-    "Imola": "7"
+    "Alfonsine": "1",
+    "Bagnacavallo": "2",
+    "Bertinoro": "3",
+    "Brisighella": "4",
+    "Castel Bolognese": "5",
+    "Cervia": "6",
+    "Cesenatico": "7",
+    "Cesena": "8",
+    "Coriano": "9",
+    "Faenza": "10",
+    "Forlì": "11",
+    "Forlimpopoli": "12",
+    "Fusignano": "13",
+    "Gambettola": "14",
+    "Imola": "15",
+    "Longiano": "16",
+    "Lugo": "17",
+    "Meldola": "18",
+    "Misano Adriatico": "19",
+    "Ravenna": "20",
+    "Riccione": "21",
+    "Rimini": "22",
+    "San Mauro Pascoli": "23",
+    "Santarcangelo di Romagna": "24",
+    "Savignano sul Rubicone": "25",
+    "Verucchio": "26"
 }
 
 async function eseguiScript() {

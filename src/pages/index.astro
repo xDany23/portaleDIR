@@ -19,7 +19,7 @@ const aziende = getAziende()
 const totaleAziende = aziende.length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
-const aziendeInEvidenza = shuffle(aziende).slice(0,3)
+const aziendeInEvidenza = shuffle([...aziende]).slice(0,3)
 const cittaInEvidenza = [...citta]
 	.sort((a,b) => getHowManyCompany(b.id) - getHowManyCompany(a.id))
 	.slice(0,5)

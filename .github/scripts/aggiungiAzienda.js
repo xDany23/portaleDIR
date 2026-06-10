@@ -63,6 +63,11 @@ async function eseguiScript() {
     const nomeAzienda = estrai("Nome azienda");
     const idAzienda = String(Date.now());
 
+    const via = estrai("Via");
+    const numero_civico = estrai("Numero Civico");
+    const indirizzo = `${via} ${numero_civico}, ${cittaRaw}`
+    const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(indirizzo)}`;
+
     let logoUrlFinale = "";
     let logoRaw = estrai("URL del logo (opzionale)") || "";
     let remoteUrl = "";
@@ -115,8 +120,9 @@ async function eseguiScript() {
         lavoro_da_remoto: estrai("Lavoro da remoto"),
         logo_url: logoUrlFinale,
         anno_fondazione: new Date().toLocaleDateString('it-IT'),
-        latitudine: 0,
-        longitudine: 0,
+        via: via,
+        numero_civico: numero_civico, 
+        mapsLink: mapsLink,
         id_citta: cittaId,
         ambiti: ambitiArray,
         assume: estrai("Assume personale") === "Sì",

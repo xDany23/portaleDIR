@@ -54,6 +54,17 @@ body:
         - Imola
     validations:
       required: true
+    
+  - type: input
+    id: via
+    attributes:
+      label: Via
+      placeholder: "Es. Via Roma"
+
+  - type: input
+    id: numero-civico
+    attributes:
+      label: Numero Civico
 
   - type: dropdown
     id: ambiti

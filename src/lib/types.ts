@@ -21,8 +21,9 @@ export interface Azienda {
     dimensione: string
     logo_url: string
     anno_fondazione: string
-    latitudine: number
-    longitudine: number
+    via: string
+    numero_civico: string
+    mapsLink: string
     id_citta: string
     ambiti: string[]
     assume: boolean

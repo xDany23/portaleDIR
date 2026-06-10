@@ -25,6 +25,10 @@ function pulisciNomeFile(stringa) {
         .replace(/^-|-$/g, "");
 }
 
+function isValidImage(url) {
+    return /\.(png|jpg|jpeg|webp|gif|svg)$/i.test(url);
+}
+
 const mappaAmbiti = {
     "Software Development" : "1",
     "Artificial Intelligence & Data": "2",
@@ -75,13 +79,18 @@ async function eseguiScript() {
     if (logoRaw.includes("<img")) {
         const srcMatch = logoRaw.match(/src=["']([^"']+)["']/);
         if (srcMatch && srcMatch[1]) {
-            remoteUrl = srcMatch[1];
+            remoteUrl = srcMatch[1].trim();
         }
     } else if (logoRaw.startsWith("https://") || logoRaw.startsWith("https://")) {
         remoteUrl = logoRaw.trim();
     }
 
     if (remoteUrl) {
+
+        if (!isValidImage(remoteUrl)) {
+            console.error("URL del logo no valido: deve essere un link diretto a un'immagine (.png, .jpg, .jpeg, .webp, .gif, .svg)");
+            throw new Error("URL del logo non valido");
+        }
         try {
             const cartellaLoghi = path.join(process.cwd(), "public/loghi");
 
@@ -105,6 +114,7 @@ async function eseguiScript() {
 
             logoUrlFinale = `loghi/${nomeFileInLocale}`;
         } catch (error) {
+            console.error("Errore durante il download del logo: ", error);
             logoUrlFinale = "";
         }
     }

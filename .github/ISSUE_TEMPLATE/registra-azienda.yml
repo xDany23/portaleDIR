@@ -127,3 +127,12 @@ body:
     attributes:
       label: URL del logo (opzionale)
       placeholder: "logo.png"
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Accettazione Privacy e Termini
+      description: Devi accettare per poter inviare la richiesta
+      options:
+        - label: Dichiaro di aver letto e accettato la [Privacy Policy](https://portaleDIR/privacy) e i [Termini del servizio](https://portaleDIR/termini)
+          required: true

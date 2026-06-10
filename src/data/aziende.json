@@ -200,5 +200,26 @@
     ],
     "assume": false,
     "tirocini": true
+  },
+  {
+    "id": "1781096879365",
+    "nome": "Tramonti Agricoli SRL",
+    "descrizione": "Azienda agricola a gestione familiare che ultimamente ha iniziato lo sviluppo di IA incentrato sull'agricoltura",
+    "email_contatto": "Tramonti@info.it",
+    "telefono": "584736273",
+    "sito_web": "",
+    "dimensione": "Piccola Azienda",
+    "lavoro_da_remoto": "No",
+    "logo_url": "loghi/1781096879365-tramonti-agricoli-srl.png",
+    "anno_fondazione": "10/06/2026",
+    "via": "Via Braccianti",
+    "numero_civico": "7/A",
+    "mapsLink": "https://www.google.com/maps/search/?api=1&query=Via%20Braccianti%207%2FA%2C%20Forl%C3%AC",
+    "id_citta": "1",
+    "ambiti": [
+      "2"
+    ],
+    "assume": true,
+    "tirocini": false
   }
 ]

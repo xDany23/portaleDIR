@@ -151,7 +151,7 @@ const cittaInEvidenza = [...citta]
 								<Fragment set:html={icon}/>
 							</div>
 							<h3 class="font-medium text-foreground text-center text-sm mb-1">{ambito.nome}</h3>
-							<span class="text-xs text-muted-foreground">{count} aziende</span>
+							<span class="text-xs text-muted-foreground">{count} {count === 1 ? "azienda" : "aziende"}</span>
 						</a>
 					);
 				})}

@@ -45,13 +45,32 @@ body:
     attributes:
       label: Città
       options:
-        - Forlì
+        - Alfonsine
+        - Bagnacavallo
+        - Bertinoro
+        - Brisighella
+        - Castel Bolognese
+        - Cervia
+        - Cesenatico
         - Cesena
-        - Rimini
-        - Ravenna
+        - Coriano
         - Faenza
-        - Lugo
+        - Forlì
+        - Forlimpopoli
+        - Fusignano
+        - Gambettola
         - Imola
+        - Longiano
+        - Lugo
+        - Meldola
+        - Misano Adriatico
+        - Ravenna
+        - Riccione
+        - Rimini
+        - San Mauro Pascoli
+        - Santarcangelo di Romagna
+        - Savignano sul Rubicone
+        - Verucchio
     validations:
       required: true
     

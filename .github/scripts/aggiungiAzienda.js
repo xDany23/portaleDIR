@@ -91,6 +91,9 @@ async function eseguiScript() {
     const indirizzo = `${via} ${numero_civico}, ${cittaRaw}`
     const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(indirizzo)}`;
 
+    const emailSito = estrai("Email di Contatto");
+    const emailAvvisi = estrai("Email Avvisi") || emailSito;
+
     let logoUrlFinale = "";
     let logoRaw = estrai("URL del logo (opzionale)") || "";
     let remoteUrl = "";
@@ -142,7 +145,7 @@ async function eseguiScript() {
         id: idAzienda,
         nome: nomeAzienda,
         descrizione: estrai("Descrizione"),
-        email_contatto: estrai("Email di contatto"),
+        email_contatto: emailSito,
         telefono: estrai("Telefono") || "",
         sito_web: estrai("Sito web") || "",
         dimensione: estrai("Dimensione azienda"),

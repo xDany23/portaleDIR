@@ -32,7 +32,7 @@ body:
     id: email-avvisi
     attributes:
       label: Email Avvisi
-      description: Email per comunicazioni di servizio
+      description: Email per comunicazioni di servizio (lasciare vuoto nel caso sia la stessa dell'email di contatto)
       placeholder: "aziendaPrivate@esempio.com"
 
   - type: input

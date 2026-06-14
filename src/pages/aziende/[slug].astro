@@ -68,7 +68,7 @@ const logo = azienda.logo_url ? `${base}${azienda.logo_url}` : `https://api.dice
                                     Lavoro da remoto: {azienda.lavoro_da_remoto}
                                 </span>
                             </div>
-                            <div class="flex flex-warp gap-2 mt-2">
+                            <div class="flex flex-wrap gap-2 mt-2">
                                 {azienda.ambiti.map((ambitoId) => {
                                     const ambito = getAmbitoById(ambitoId);
                                     return ambito && (

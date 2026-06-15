@@ -4,14 +4,6 @@ import Layout from "../layouts/Layout.astro";
 import AziendaCard from "../components/AziendaCard.astro";
 import { immaginiAmbiti } from "../lib/immaginiAmbiti";
 
-function shuffle(array: any[]) {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
-}
-
 const citta = getCitta()
 const ambiti = getAmbiti()
 const aziende = getAziende()
@@ -19,7 +11,6 @@ const aziende = getAziende()
 const totaleAziende = aziende.length;
 const totaleCitta = citta.length;
 const totaleAmbiti = ambiti.length;
-const aziendeInEvidenza = shuffle([...aziende]).slice(0,3)
 const cittaInEvidenza = [...citta]
 	.sort((a,b) => getHowManyCompany(b.id) - getHowManyCompany(a.id))
 	.slice(0,5)
@@ -104,7 +95,7 @@ const cittaInEvidenza = [...citta]
 	</section>
 
 	<!-- Le aziende del Portale -->
-	<section class="py-16 lg:py-24">
+	<!-- <section class="py-16 lg:py-24">
 		<div class="container mx-auto px-4">
 			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
 				<div>
@@ -116,7 +107,6 @@ const cittaInEvidenza = [...citta]
 					class="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
 				>
 					Vedi tutte le aziende
-					<!-- freccia verso destra -->
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
 				</a>
 			</div>
@@ -127,7 +117,7 @@ const cittaInEvidenza = [...citta]
 				))}
 			</div>
 		</div>
-	</section>
+	</section> -->
 
 	<!-- Sezione per gli Ambiti di Lavoro -->
 	<section class="py-16 lg:py-24 bg-muted/80">

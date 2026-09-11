@@ -65,14 +65,15 @@ export function getAziendeByFilters(filters: {
     ricerca?: string
     citta?: string[]
     ambiti?: string[]
-    dimensione?: string[]
-    lavoro_da_remoto?: string[]
+    tirocinio?: boolean
+    assunzione?: boolean
 }): Azienda[] {
     return (aziende as Azienda[]).filter(azienda => {
 
         //ricerca testuale su nome e descrizione
-        if (filters.ricerca) {
+        if (filters.ricerca?.trim()) {
             const search = filters.ricerca.trim().toLowerCase()
+
             const match = 
                 azienda.nome.toLowerCase().includes(search) ||
                 azienda.descrizione.toLowerCase().includes(search)
@@ -90,14 +91,14 @@ export function getAziendeByFilters(filters: {
             if (!hasAmbito) return false
         }
 
-        //per dimensione
-        if (filters.dimensione && filters.dimensione.length > 0) {
-            if (!filters.dimensione.includes(azienda.dimensione)) return false
+        //per tirocinio
+        if (filters.tirocinio) {
+            if (!azienda.tirocini) return false
         }
 
-        //per lavoro da remoto
-        if (filters.lavoro_da_remoto && filters.lavoro_da_remoto.length > 0) {
-            if (!filters.lavoro_da_remoto.includes(azienda.lavoro_da_remoto)) return false
+        //per assunzione
+        if (filters.assunzione) {
+            if (!azienda.assume) return false
         }
 
         return true

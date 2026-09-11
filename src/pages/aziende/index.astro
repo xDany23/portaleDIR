@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getAziende, getCitta, getAmbiti } from "../../lib/data";
+import { getAziende, getCitta, getAmbiti, getAziendeByFilters } from "../../lib/data";
 
 const aziende = getAziende()
 const citta = getCitta()
@@ -133,6 +133,8 @@ const ambiti = getAmbiti()
 </Layout>
 
 <script type="module">
+import { getAziendeByFilters } from "../../lib/data";
+
 
     document.addEventListener("DOMContentLoaded", () => {
         const aziende = window.AZIENDE;
@@ -194,41 +196,17 @@ const ambiti = getAmbiti()
 
             document.querySelector('input[name="assunzione"]').checked = false;
 
-            render(aziende);
+            render(getAziendeByFilters({
+                ricerca: "",
+                citta: [],
+                ambiti: [],
+                tirocinio: false,
+                assunzione: false
+            }));
         })
 
         function slugify(nome) {
             return nome.toLowerCase().replace(/\s+/g, '-');
-        }
-
-        function filtraAziende() {
-            return aziende.filter(a => {
-                if (filters.ricerca) {
-                    const q = filters.ricerca;
-                    if (
-                        !a.nome.toLowerCase().includes(q) &&
-                        !a.descrizione.toLowerCase().includes(q)
-                    ) return false;
-                }
-
-                if (filters.citta.length > 0) {
-                    if (!filters.citta.includes(a.id_citta)) return false;
-                }
-
-                if (filters.ambiti.length > 0) {
-                    if (!a.ambiti.some(id => filters.ambiti.includes(id))) return false;
-                }
-
-                if (filters.tirocinio === true) {
-                    if (!a.tirocini === true) return false;
-                }
-
-                if (filters.assunzione === true) {
-                    if (!a.assume === true) return false;
-                }
-
-                return true;
-            });
         }
 
         function renderCard(a) {
@@ -321,7 +299,7 @@ const ambiti = getAmbiti()
             container.innerHTML = lista.map(renderCard).join("");
         }
 
-        render(filtraAziende());
+        render(getAziendeByFilters(filters));
     })
     
 </script>

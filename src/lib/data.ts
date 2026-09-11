@@ -72,7 +72,7 @@ export function getAziendeByFilters(filters: {
 
         //ricerca testuale su nome e descrizione
         if (filters.ricerca) {
-            const search = filters.ricerca.toLowerCase()
+            const search = filters.ricerca.trim().toLowerCase()
             const match = 
                 azienda.nome.toLowerCase().includes(search) ||
                 azienda.descrizione.toLowerCase().includes(search)

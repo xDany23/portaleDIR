@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getAziende, getCitta, getAmbiti, getAziendeByFilters } from "../../lib/data";
+import { getAziende, getCitta, getAmbiti} from "../../lib/data";
 
 const aziende = getAziende()
 const citta = getCitta()
@@ -133,6 +133,7 @@ const ambiti = getAmbiti()
 </Layout>
 
 <script type="module">
+    import { getAziendeByFilters } from "../../lib/data";
 
     document.addEventListener("DOMContentLoaded", () => {
         const AZIENDE = window.AZIENDE;
@@ -194,7 +195,7 @@ const ambiti = getAmbiti()
 
             document.querySelector('input[name="assunzione"]').checked = false;
 
-            render(getAziendeByFilters({
+            render(getAziendeByFilters(AZIENDE, {
                 ricerca: "",
                 citta: [],
                 ambiti: [],
@@ -297,7 +298,7 @@ const ambiti = getAmbiti()
             container.innerHTML = lista.map(renderCard).join("");
         }
 
-        render(getAziendeByFilters(filters));
+        render(getAziendeByFilters(AZIENDE, filters));
     })
     
 </script>

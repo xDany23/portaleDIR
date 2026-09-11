@@ -61,14 +61,16 @@ export function getAziendaBySlug(slug: string): Azienda | undefined {
     }
 }
 
-export function getAziendeByFilters(filters: {
+export function getAziendeByFilters(
+    aziendeDaFiltrare: Azienda[],
+    filters: {
     ricerca?: string
     citta?: string[]
     ambiti?: string[]
     tirocinio?: boolean
     assunzione?: boolean
 }): Azienda[] {
-    return (aziende as Azienda[]).filter(azienda => {
+    return aziendeDaFiltrare.filter(azienda => {
 
         //ricerca testuale su nome e descrizione
         if (filters.ricerca?.trim()) {

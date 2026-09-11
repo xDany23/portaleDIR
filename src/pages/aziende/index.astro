@@ -134,7 +134,7 @@ const ambiti = getAmbiti()
 
 <script type="module">
 
-    document.addEventListener("DOMContentLoaded", () => {
+    function init() {
         const AZIENDE = window.AZIENDE;
         const CITTA = window.CITTA;
         const AMBITI = window.AMBITI;
@@ -336,6 +336,12 @@ const ambiti = getAmbiti()
         }
 
         render(getAziendeByFilters());
-    })
+    }
+
+    if (document.readyState == "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
     
 </script>

@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getAziende, getCitta, getAmbiti } from "../../lib/data";
+import { getAziende, getCitta, getAmbiti, getAziendeByFilters } from "../../lib/data";
 
 const aziende = getAziende()
 const citta = getCitta()
@@ -133,11 +133,9 @@ const ambiti = getAmbiti()
 </Layout>
 
 <script type="module">
-import { getAziendeByFilters } from "../../lib/data";
-
 
     document.addEventListener("DOMContentLoaded", () => {
-        const aziende = window.AZIENDE;
+        const AZIENDE = window.AZIENDE;
         const CITTA = window.CITTA;
         const AMBITI = window.AMBITI;
 

@@ -133,7 +133,6 @@ const ambiti = getAmbiti()
 </Layout>
 
 <script type="module">
-    import { getAziendeByFilters } from "../../lib/data";
 
     document.addEventListener("DOMContentLoaded", () => {
         const AZIENDE = window.AZIENDE;
@@ -195,18 +194,56 @@ const ambiti = getAmbiti()
 
             document.querySelector('input[name="assunzione"]').checked = false;
 
-            render(getAziendeByFilters(AZIENDE, {
-                ricerca: "",
-                citta: [],
-                ambiti: [],
-                tirocinio: false,
-                assunzione: false
-            }));
+            filters.ricerca = "";
+            filters.citta = [];
+            filters.ambiti = [];
+            filters.tirocinio = false;
+            filters.assunzione = false;
+
+            render(getAziendeByFilters());
         })
 
         function slugify(nome) {
             return nome.toLowerCase().replace(/\s+/g, '-');
         }
+
+        function getAziendeByFilters(){
+        return AZIENDE.filter(azienda => {
+
+            //ricerca testuale su nome e descrizione
+            if (filters.ricerca?.trim()) {
+                const search = filters.ricerca.trim().toLowerCase()
+
+                const match = 
+                    azienda.nome.toLowerCase().includes(search) ||
+                    azienda.descrizione.toLowerCase().includes(search)
+                if (!match) return false
+            }
+
+            //per citta
+            if (filters.citta && filters.citta.length > 0) {
+                if (!filters.citta.includes(azienda.id_citta)) return false
+            }
+
+            //per ambito
+            if (filters.ambiti && filters.ambiti.length > 0) {
+                const hasAmbito = filters.ambiti.some(id => azienda.ambiti.includes(id))
+                if (!hasAmbito) return false
+            }
+
+            //per tirocinio
+            if (filters.tirocinio) {
+                if (!azienda.tirocini) return false
+            }
+
+            //per assunzione
+            if (filters.assunzione) {
+                if (!azienda.assume) return false
+            }
+
+            return true
+        })
+    }
 
         function renderCard(a) {
             const citta = CITTA.find(c => c.id === a.id_citta)?.nome || "Romagna";
@@ -298,7 +335,7 @@ const ambiti = getAmbiti()
             container.innerHTML = lista.map(renderCard).join("");
         }
 
-        render(getAziendeByFilters(AZIENDE, filters));
+        render(getAziendeByFilters());
     })
     
 </script>
